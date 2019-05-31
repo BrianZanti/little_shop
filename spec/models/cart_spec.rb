@@ -1,5 +1,5 @@
 require 'rails_helper'
-
+# RSpec.describe Cart, type: :model do
 RSpec.describe Cart do
   describe "Cart with existing contents" do
     before :each do

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Address, typ: :model do
+describe Address, type: :model do
   describe "validations" do
     # it {should validate_presence_of(:user_id)}
     # it {should validate_presence_of(:street)}

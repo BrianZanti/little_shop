@@ -6,11 +6,11 @@
   <p>Role: <%= @user.role %></p>
   <aside id="address-details">
     <h3>Address:</h3>
-    <p><%= @user.address %></p>
+    <p><%= @user.addresses.last.street %></p>
     <p>
-      <%= @user.city %>,
-      <%= @user.state %>
-      <%= @user.zip %>
+      <%= @user.addresses.last.city %>,
+      <%= @user.addresses.last.state %>
+      <%= @user.addresses.last.zip_code %>
     </p>
   </aside>
   <p><%= link_to 'Edit Profile Data', edit_profile_path unless current_admin? %></p>

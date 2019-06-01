@@ -23,7 +23,6 @@ RSpec.describe User, type: :model do
   describe 'roles' do
     it 'can be created as a default user' do
       u1 = create(:user, role: 0)
-      address_1 = u1.addresses.create(street: "street_1", city: "city_1", state: "AA", zip_code: "00001")
 
       expect(u1.role).to eq('default')
       expect(u1.default?).to be_truthy
@@ -31,7 +30,6 @@ RSpec.describe User, type: :model do
 
     it 'can be created as a merchant' do
       u1 = create(:user, role: 1)
-      address_1 = u1.addresses.create(street: "street_1", city: "city_1", state: "AA", zip_code: "00001")
 
       expect(u1.role).to eq('merchant')
       expect(u1.merchant?).to be_truthy
@@ -39,7 +37,6 @@ RSpec.describe User, type: :model do
 
     it 'can be created as an admin' do
       u1 = create(:user, role: 2)
-      address_1 = u1.addresses.create(street: "street_1", city: "city_1", state: "AA", zip_code: "00001")
 
       expect(u1.role).to eq('admin')
       expect(u1.admin?).to be_truthy
@@ -55,20 +52,19 @@ RSpec.describe User, type: :model do
       u5 = create(:user)
       u6 = create(:user)
       @m1 = create(:merchant)
-      # @u1 = create(:user, state: "CO", city: "Anywhere")
-      # @u2 = create(:user, state: "OK", city: "Tulsa")
-      # @u3 = create(:user, state: "IA", city: "Anywhere")
-      # u4 = create(:user, state: "IA", city: "Des Moines")
-      # u5 = create(:user, state: "IA", city: "Des Moines")
-      # u6 = create(:user, state: "IA", city: "Des Moines")
 
-      @a1 = @u1.addresses.create(state: "CO", city: "Anywhere")
-      @a1 = @u2.addresses.create(state: "OK", city: "Tulsa")
-      @a1 = @u3.addresses.create(state: "IA", city: "Anywhere")
-      @a1 = u4.addresses.create(state: "IA", city: "Des Moines")
-      @a1 = u5.addresses.create(state: "IA", city: "Des Moines")
-      @a1 = u6.addresses.create(state: "IA", city: "Des Moines")
-
+      @a1a = create(:address, user_id: @u1.id, state: "CO", city: "Anywhere")
+      @a2a = create(:address, user_id: @u2.id, state: "OK", city: "Tulsa")
+      @a3a = create(:address, user_id: @u3.id, state: "IA", city: "Anywhere")
+      @a4a = create(:address, user_id: u4.id, state: "IA", city: "Des Moines")
+      @a5a = create(:address, user_id: u4.id, state: "IA", city: "Des Moines")
+      @a6a = create(:address, user_id: u6.id, state: "IA", city: "Des Moines")
+      @a1b = create(:address, user_id: @u1.id, state: "CO", city: "Anywhere")
+      @a2b = create(:address, user_id: @u2.id, state: "OK", city: "Tulsa")
+      @a3b = create(:address, user_id: @u3.id, state: "IA", city: "Anywhere")
+      @a4b = create(:address, user_id: u4.id, state: "IA", city: "Des Moines")
+      @a5b = create(:address, user_id: u4.id, state: "IA", city: "Des Moines")
+      @a6b = create(:address, user_id: u6.id, state: "IA", city: "Des Moines")
 
       @i1 = create(:item, merchant_id: @m1.id, inventory: 20)
       @i2 = create(:item, merchant_id: @m1.id, inventory: 20)
@@ -138,7 +134,6 @@ RSpec.describe User, type: :model do
     end
 
     # it '.top_states_by_items_shipped' do
-    #   require 'pry'; binding.pry
     #   expect(@m1.top_states_by_items_shipped(3)[0].state).to eq("IA")
     #   expect(@m1.top_states_by_items_shipped(3)[0].quantity).to eq(10)
     #   expect(@m1.top_states_by_items_shipped(3)[1].state).to eq("OK")

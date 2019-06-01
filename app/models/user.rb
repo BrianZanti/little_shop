@@ -15,7 +15,7 @@ class User < ApplicationRecord
   has_many :items, foreign_key: 'merchant_id'
 
   def active_address
-    
+    addresses.where(user_id: params[:id])
   end
 
   def active_items

@@ -3,15 +3,20 @@ class User < ApplicationRecord
 
   enum role: [:default, :merchant, :admin]
 
-  validates_presence_of :name, :address, :city, :state, :zip
+  validates_presence_of :name
   validates :email, presence: true, uniqueness: true
 
   # as a consumer
+  has_many :addresses
   has_many :orders
   has_many :order_items, through: :orders
 
   # as a merchant
   has_many :items, foreign_key: 'merchant_id'
+
+  def active_address
+    addresses.where(user_id: params[:id])
+  end
 
   def active_items
     items.where(active: true).order(:name)

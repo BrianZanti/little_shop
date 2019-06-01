@@ -2,7 +2,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   include ActionView::Helpers::TextHelper
 
-  helper_method :current_user, :current_admin?, :current_merchant?, :current_reguser?, :cart, :time_as_words
+  helper_method :current_user,
+                :current_admin?,
+                :current_merchant?,
+                :current_reguser?,
+                :cart,
+                :time_as_words
 
   def cart
     @cart ||= Cart.new(session[:cart])

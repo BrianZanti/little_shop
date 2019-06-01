@@ -41,7 +41,7 @@
         City: <%= address.city %>
         State: <%= address.state %>
         Zip Code: <%= address.zip_code %>
-        <%= link_to 'Edit This Address', edit_profile_address_path(address.id) %>
+        <%= button_to 'Edit This Address', edit_profile_address_path(address.id), method: "get" %>
         <%= button_to 'Delete This Address', profile_address_path(address.id), method: :delete %>
       </section>
       <% end %>

@@ -53,18 +53,18 @@ RSpec.describe User, type: :model do
       u6 = create(:user)
       @m1 = create(:merchant)
 
-      @a1a = create(:address, user_id: @u1.id, state: "CO", city: "Anywhere")
-      @a2a = create(:address, user_id: @u2.id, state: "OK", city: "Tulsa")
-      @a3a = create(:address, user_id: @u3.id, state: "IA", city: "Anywhere")
-      @a4a = create(:address, user_id: u4.id, state: "IA", city: "Des Moines")
-      @a5a = create(:address, user_id: u4.id, state: "IA", city: "Des Moines")
-      @a6a = create(:address, user_id: u6.id, state: "IA", city: "Des Moines")
-      @a1b = create(:address, user_id: @u1.id, state: "CO", city: "Anywhere")
-      @a2b = create(:address, user_id: @u2.id, state: "OK", city: "Tulsa")
-      @a3b = create(:address, user_id: @u3.id, state: "IA", city: "Anywhere")
-      @a4b = create(:address, user_id: u4.id, state: "IA", city: "Des Moines")
-      @a5b = create(:address, user_id: u4.id, state: "IA", city: "Des Moines")
-      @a6b = create(:address, user_id: u6.id, state: "IA", city: "Des Moines")
+      @a1a = create(:address, user_id: @u1.id, state: "CO", city: "Anywhere", nickname: "home")
+      @a2a = create(:address, user_id: @u2.id, state: "OK", city: "Tulsa", nickname: "home")
+      @a3a = create(:address, user_id: @u3.id, state: "IA", city: "Anywhere", nickname: "home")
+      @a4a = create(:address, user_id: u4.id, state: "IA", city: "Des Moines", nickname: "home")
+      @a5a = create(:address, user_id: u4.id, state: "IA", city: "Des Moines", nickname: "home")
+      @a6a = create(:address, user_id: u6.id, state: "IA", city: "Des Moines", nickname: "home")
+      @a1b = create(:address, user_id: @u1.id, state: "CO", city: "Anywhere", nickname: "business")
+      @a2b = create(:address, user_id: @u2.id, state: "OK", city: "Tulsa", nickname: "business")
+      @a3b = create(:address, user_id: @u3.id, state: "IA", city: "Anywhere", nickname: "business")
+      @a4b = create(:address, user_id: u4.id, state: "IA", city: "Des Moines", nickname: "business")
+      @a5b = create(:address, user_id: u4.id, state: "IA", city: "Des Moines", nickname: "business")
+      @a6b = create(:address, user_id: u6.id, state: "IA", city: "Des Moines", nickname: "business")
 
       @i1 = create(:item, merchant_id: @m1.id, inventory: 20)
       @i2 = create(:item, merchant_id: @m1.id, inventory: 20)
@@ -131,6 +131,10 @@ RSpec.describe User, type: :model do
 
     it '.total_inventory_remaining' do
       expect(@m1.total_inventory_remaining).to eq(138)
+    end
+
+    it '.home_address' do
+      expect(@u1.home_address).to eq(@a1a)
     end
 
     # it '.top_states_by_items_shipped' do

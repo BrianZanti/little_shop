@@ -7,7 +7,7 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true
 
   # as a consumer
-  has_many :addresses
+  has_many :addresses, dependent: :destroy
   has_many :orders
   has_many :order_items, through: :orders
 
@@ -17,6 +17,10 @@ class User < ApplicationRecord
   # def active_address
   #   addresses.where(user_id: params[:id])
   # end
+
+  def home_address
+    addresses.find_by(nickname: "home")
+  end
 
   def active_items
     items.where(active: true).order(:name)

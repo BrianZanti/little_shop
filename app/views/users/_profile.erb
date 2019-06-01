@@ -5,13 +5,17 @@
   <p>Email: <%= @user.email %></p>
   <p>Role: <%= @user.role %></p>
   <aside id="address-details">
-    <h3>Address:</h3>
-    <p><%= @user.addresses.last.street %></p>
-    <p>
-      <%= @user.addresses.last.city %>,
-      <%= @user.addresses.last.state %>
-      <%= @user.addresses.last.zip_code %>
-    </p>
+    <h3>Home Address:</h3>
+    <% if @home_address == nil %>
+      <p>No Home Address on File</p>
+    <% else %>
+      <p><%= @home_address.street %></p>
+      <p>
+        <%= @home_address.city %>,
+        <%= @home_address.state %>
+        <%= @home_address.zip_code %>
+      </p>
+    <% end %>
   </aside>
   <p><%= link_to 'Edit Profile Data', edit_profile_path unless current_admin? %></p>
 </section>
@@ -23,4 +27,24 @@
   <% else %>
   You have no orders yet.
   <% end %></p>
+</section>
+
+<section id="address-handler">
+  <h2>Addresses on File:</h2>
+  <% if @user.addresses == [] %>
+    <p>No addresses on file</p>
+  <% else %>
+    <% @user.addresses.each do |address| %>
+      <section id="address-details-<%= address.id %>">
+        Nickname: <%= address.nickname %>
+        Street: <%= address.street %>
+        City: <%= address.city %>
+        State: <%= address.state %>
+        Zip Code: <%= address.zip_code %>
+        <%= link_to 'Edit This Address', edit_profile_address_path(address.id) %>
+        <%= button_to 'Delete This Address', profile_address_path(address.id), method: :delete %>
+      </section>
+      <% end %>
+  <% end %>
+  <%= button_to 'Add New Address', new_profile_address_path, method: "get"%>
 </section>

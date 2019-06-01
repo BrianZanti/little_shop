@@ -1,12 +1,14 @@
 class UsersController < ApplicationController
   before_action :require_reguser, except: [:new, :create]
 
+
   def new
     @user = User.new
   end
 
   def show
     @user = current_user
+    @home_address = @user.home_address
   end
 
   def edit
@@ -19,7 +21,8 @@ class UsersController < ApplicationController
                           street: params[:street],
                           city: params[:city],
                           state: params[:state],
-                          zip_code: params[:zip_code]
+                          zip_code: params[:zip_code],
+                          nickname: "home"
                         )
     # @address = Address.new(address_params)
 

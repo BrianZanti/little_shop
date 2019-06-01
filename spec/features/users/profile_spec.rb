@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe 'user profile', type: :feature do
   before :each do
     @user = create(:user)
-    @address = create(:address, user: @user)
+    @address_1 = create(:address, user: @user, nickname: "home")
+    @address_2 = create(:address, user: @user, nickname: "business")
   end
 
   describe 'registered user visits their profile' do
@@ -11,15 +12,17 @@ RSpec.describe 'user profile', type: :feature do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 
       visit profile_path
-
+save_and_open_page
       within '#profile-data' do
         expect(page).to have_content("Role: #{@user.role}")
         expect(page).to have_content("Email: #{@user.email}")
-        within '#address-details' do
-          expect(page).to have_content("Address: #{@user.addresses.last.street}")
-          expect(page).to have_content("#{@user.addresses.last.city}, #{@user.addresses.last.state} #{@user.addresses.last.zip_code}")
-        end
         expect(page).to have_link('Edit Profile Data')
+      end
+      within "#address-details-#{@address_2.id}" do
+        expect(page).to have_content("Street: #{@user.addresses[1].street}")
+        expect(page).to have_content("City: #{@user.addresses[1].city}")
+        expect(page).to have_content("State: #{@user.addresses[1].state}")
+        expect(page).to have_content("Zip Code: #{@user.addresses[1].zip_code}")
       end
     end
   end

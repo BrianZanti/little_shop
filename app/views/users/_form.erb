@@ -24,6 +24,10 @@
     <%= fa.label :zip_code %>:
     <%= fa.text_field :zip_code, :required => true %>
   </p>
+
+  <p>
+    <%= f.hidden_field :nickname, value: "home" %>
+  </p>
 <% end %>
 
 <p>

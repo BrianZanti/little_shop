@@ -11,10 +11,27 @@ admin = create(:admin)
 user = create(:user)
 merchant_1 = create(:merchant)
 
+address_1 = create(:address, user: admin, nickname: "home")
+address_2 = create(:address, user: admin, nickname: "business")
+address_3 = create(:address, user: user, nickname: "home")
+address_4 = create(:address, user: user, nickname: "business")
+address_5 = create(:address, user: merchant_1, nickname: "home")
+address_6 = create(:address, user: merchant_1, nickname: "business")
+
+
 merchant_2, merchant_3, merchant_4 = create_list(:merchant, 3)
+address_7 = create(:address, user: merchant_2, nickname: "home")
+address_8 = create(:address, user: merchant_3, nickname: "home")
+address_9 = create(:address, user: merchant_4, nickname: "home")
+
+
 
 inactive_merchant_1 = create(:inactive_merchant)
 inactive_user_1 = create(:inactive_user)
+
+address_10 = create(:address, user: inactive_merchant_1, nickname: "home")
+address_11 = create(:address, user: inactive_user_1, nickname: "home")
+
 
 item_1 = create(:item, user: merchant_1)
 item_2 = create(:item, user: merchant_2)

@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 20190601003742) do
 
   create_table "addresses", force: :cascade do |t|
     t.bigint "user_id"
+    t.string "nickname"
     t.string "street"
     t.string "city"
     t.string "state"

@@ -134,7 +134,6 @@ RSpec.describe User, type: :model do
     end
 
     # it '.top_states_by_items_shipped' do
-    #   require 'pry'; binding.pry
     #   expect(@m1.top_states_by_items_shipped(3)[0].state).to eq("IA")
     #   expect(@m1.top_states_by_items_shipped(3)[0].quantity).to eq(10)
     #   expect(@m1.top_states_by_items_shipped(3)[1].state).to eq("OK")

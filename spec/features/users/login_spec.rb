@@ -3,8 +3,11 @@ require 'rails_helper'
 RSpec.describe "the login page" do
   before :each do
     @user = create(:user)
+    @address_1 = create(:address, user: @user)
     @merchant = create(:merchant)
+    @address_2 = create(:address, user: @merchant)
     @admin = create(:admin)
+    @address_3 = create(:address, user: @admin)
 
     visit login_path
   end

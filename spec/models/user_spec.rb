@@ -23,7 +23,6 @@ RSpec.describe User, type: :model do
   describe 'roles' do
     it 'can be created as a default user' do
       u1 = create(:user, role: 0)
-      address_1 = u1.addresses.create(street: "street_1", city: "city_1", state: "AA", zip_code: "00001")
 
       expect(u1.role).to eq('default')
       expect(u1.default?).to be_truthy
@@ -31,7 +30,6 @@ RSpec.describe User, type: :model do
 
     it 'can be created as a merchant' do
       u1 = create(:user, role: 1)
-      address_1 = u1.addresses.create(street: "street_1", city: "city_1", state: "AA", zip_code: "00001")
 
       expect(u1.role).to eq('merchant')
       expect(u1.merchant?).to be_truthy
@@ -39,7 +37,6 @@ RSpec.describe User, type: :model do
 
     it 'can be created as an admin' do
       u1 = create(:user, role: 2)
-      address_1 = u1.addresses.create(street: "street_1", city: "city_1", state: "AA", zip_code: "00001")
 
       expect(u1.role).to eq('admin')
       expect(u1.admin?).to be_truthy

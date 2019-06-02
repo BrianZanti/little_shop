@@ -41,10 +41,10 @@ describe Address, type: :model do
     end
 
     it '.in_completed_order?' do
-      expect(@address_1.in_completed_order?).to eq(false) # order is pending
+      expect(@address_1.in_completed_order?).to eq(true) # order is pending
       expect(@address_2.in_completed_order?).to eq(true)  # order is packaged
       expect(@address_3.in_completed_order?).to eq(true)  # order is shipped
-      expect(@address_4.in_completed_order?).to eq(false) # order is cancelled
+      expect(@address_4.in_completed_order?).to eq(true) # order is cancelled
       expect(@address_5.in_completed_order?).to eq(false) # not in an order
     end
   end

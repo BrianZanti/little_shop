@@ -5,6 +5,7 @@ class Address < ApplicationRecord
   has_many :orders
 
   def in_completed_order?
-    orders.where(status: "packaged").or(orders.where(status: "shipped")).count > 0
+    # orders.where(status: "packaged").or(orders.where(status: "shipped")).count > 0
+    orders.count > 0
   end
 end

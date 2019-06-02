@@ -32,7 +32,6 @@ class Profile::OrdersController < ApplicationController
 
   def create
     order = Order.create(user: current_user, status: :pending, address_id: params[:shipping_id])
-    require 'pry'; binding.pry
     cart.items.each do |item, quantity|
       order.order_items.create(item: item, quantity: quantity, price: item.price)
     end

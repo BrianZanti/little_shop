@@ -12,8 +12,9 @@
     Select a shipping address:</br>
     <%= form_tag profile_orders_path do |f| %>
       <% current_user.addresses.each do |address| %>
-        <input name="shipping_address" value="<%= address.id %>" type="radio" checked> <%= address.nickname %>: <%= address.street %>, <%= address.city %>, <%= address.state %> <%= address.zip_code %> <br/>
+        <input name="shipping_id" value="<%= address.id %>" type="radio" checked> <%= address.nickname %>: <%= address.street %>, <%= address.city %>, <%= address.state %> <%= address.zip_code %> <br/>
       <% end %>
+      
       <%= submit_tag "Check Out" %>
     <% end %>
 

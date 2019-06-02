@@ -2,7 +2,6 @@ class Profile::OrdersController < ApplicationController
   before_action :require_reguser
 
   def index
-    require 'pry'; binding.pry
     @user = current_user
     @orders = current_user.orders
   end
@@ -32,6 +31,7 @@ class Profile::OrdersController < ApplicationController
   end
 
   def create
+    require 'pry'; binding.pry
     order = Order.create(user: current_user, status: :pending)
     cart.items.each do |item, quantity|
       order.order_items.create(item: item, quantity: quantity, price: item.price)

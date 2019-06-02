@@ -8,7 +8,7 @@ class Profile::OrdersController < ApplicationController
 
   def show
     @order = Order.find(params[:id])
-    @shipping_address = Address.find(@order.address_id)
+    @shipping_address = Address.find(@order.address_id) if @order.address_id != nil
   end
 
   def update

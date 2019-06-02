@@ -68,10 +68,6 @@ class User < ApplicationRecord
          .limit(limit)
   end
 
-
-
-
-
   def top_users_by_money_spent(limit)
     items.joins(:order_items)
         .joins('join orders on orders.id = order_items.order_id')
@@ -145,23 +141,5 @@ class User < ApplicationRecord
 
   def self.bottom_merchants_by_fulfillment_time(limit)
     merchants_sorted_by_fulfillment_time(limit, :desc)
-  end
-
-  def self.top_user_states_by_order_count(limit)
-    self.joins(:orders)
-        .where(orders: {status: :shipped})
-        .group(:state)
-        .select('users.state, count(orders.id) AS order_count')
-        .order('order_count DESC')
-        .limit(limit)
-  end
-
-  def self.top_user_cities_by_order_count(limit)
-    self.joins(:orders)
-        .where(orders: {status: :shipped})
-        .group(:state, :city)
-        .select('users.city, users.state, count(orders.id) AS order_count')
-        .order('order_count DESC')
-        .limit(limit)
   end
 end

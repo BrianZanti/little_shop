@@ -242,27 +242,6 @@ RSpec.describe User, type: :model do
       it ".bottom_merchants_by_fulfillment_time" do
         expect(User.bottom_merchants_by_fulfillment_time(3)).to eq([@m2, @m3, @m6])
       end
-
-      # it ".top_user_states_by_order_count" do
-      #   expect(User.top_user_states_by_order_count(3)[0].state).to eq("IA")
-      #   expect(User.top_user_states_by_order_count(3)[0].order_count).to eq(3)
-      #   expect(User.top_user_states_by_order_count(3)[1].state).to eq("CO")
-      #   expect(User.top_user_states_by_order_count(3)[1].order_count).to eq(2)
-      #   expect(User.top_user_states_by_order_count(3)[2].state).to eq("OK")
-      #   expect(User.top_user_states_by_order_count(3)[2].order_count).to eq(1)
-      # end
-      #
-      # it ".top_user_cities_by_order_count" do
-      #   expect(User.top_user_cities_by_order_count(3)[0].state).to eq("CO")
-      #   expect(User.top_user_cities_by_order_count(3)[0].city).to eq("Fairfield")
-      #   expect(User.top_user_cities_by_order_count(3)[0].order_count).to eq(2)
-      #   expect(User.top_user_cities_by_order_count(3)[1].state).to eq("IA")
-      #   expect(User.top_user_cities_by_order_count(3)[1].city).to eq("Des Moines")
-      #   expect(User.top_user_cities_by_order_count(3)[1].order_count).to eq(2)
-      #   expect(User.top_user_cities_by_order_count(3)[2].state).to eq("IA")
-      #   expect(User.top_user_cities_by_order_count(3)[2].city).to eq("Fairfield")
-      #   expect(User.top_user_cities_by_order_count(3)[2].order_count).to eq(1)
-      # end
     end
   end
 end

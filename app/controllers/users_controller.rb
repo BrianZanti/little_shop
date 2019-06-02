@@ -65,10 +65,6 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end
 
-  # def address_params
-  #   params.permit(:street, :city, :state, :zip_code)
-  # end
-
   def user_update_params
     uup = user_params
     uup.delete(:password) if uup[:password].empty?

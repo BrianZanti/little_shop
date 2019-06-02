@@ -3,9 +3,29 @@
   <p>Your Cart is empty.</p>
 <% else %>
   <h3>Total: <%= number_to_currency(cart.total) %></h3>
-  <% if current_user %>
-    <%= button_to "Check Out", profile_orders_path, method: :post %>
+
+
+
+
+  <% if current_user && current_user.addresses != [] %>
+
+    Select a shipping address:</br>
+    <%= form_tag profile_orders_path do |f| %>
+      <% current_user.addresses.each do |address| %>
+        <input name="shipping_id" value="<%= address.id %>" type="radio" checked> <%= address.nickname %>: <%= address.street %>, <%= address.city %>, <%= address.state %> <%= address.zip_code %> <br/>
+      <% end %>
+      
+      <%= submit_tag "Check Out" %>
+    <% end %>
+
+  <% elsif current_user %>
+
+    You have no address on file
+    <%= button_to 'Add New Address', new_profile_address_path, method: "get"%>
+
+
   <% else %>
+
     <p>You must <%= link_to "register", registration_path %>
       or <%= link_to "log in", login_path %> to check out.</p>
   <% end %>

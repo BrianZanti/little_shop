@@ -41,10 +41,12 @@
         City: <%= address.city %>
         State: <%= address.state %>
         Zip Code: <%= address.zip_code %>
-        <%= button_to 'Edit This Address', edit_profile_address_path(address.id), method: "get" %>
-        <%= button_to 'Delete This Address', profile_address_path(address.id), method: :delete %>
+        <% if !address.in_completed_order? %>
+          <%= button_to 'Edit This Address', edit_profile_address_path(address.id), method: "get" %>
+          <%= button_to 'Delete This Address', profile_address_path(address.id), method: :delete %>
+        <% end %>
       </section>
-      <% end %>
+    <% end %>
   <% end %>
   <%= button_to 'Add New Address', new_profile_address_path, method: "get"%>
 </section>

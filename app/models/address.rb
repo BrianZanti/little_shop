@@ -3,4 +3,8 @@ class Address < ApplicationRecord
 
   belongs_to :user
   has_many :orders
+
+  def in_completed_order?
+    orders.where(status: "packaged").or(orders.where(status: "shipped")).count > 0
+  end
 end

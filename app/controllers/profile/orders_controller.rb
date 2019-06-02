@@ -8,6 +8,14 @@ class Profile::OrdersController < ApplicationController
 
   def show
     @order = Order.find(params[:id])
+    @shipping_address = Address.find(@order.address_id)
+  end
+
+  def update
+    order = Order.find(params[:id])
+    order.address_id = Address.find(params[:shipping_id]).id
+    order.save
+    redirect_to profile_order_path(order)
   end
 
   def destroy

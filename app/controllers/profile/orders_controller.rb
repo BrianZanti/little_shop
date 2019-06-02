@@ -2,6 +2,7 @@ class Profile::OrdersController < ApplicationController
   before_action :require_reguser
 
   def index
+    require 'pry'; binding.pry
     @user = current_user
     @orders = current_user.orders
   end

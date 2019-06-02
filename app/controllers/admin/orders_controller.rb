@@ -9,6 +9,7 @@ class Admin::OrdersController < Admin::BaseController
   end
 
   def ship
+    # require 'pry'; binding.pry # look for params[:interest] or [:shipping_address]
     order = Order.find(params[:order_id])
     order.status = :shipped
     order.save

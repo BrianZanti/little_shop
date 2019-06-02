@@ -137,14 +137,14 @@ RSpec.describe User, type: :model do
       expect(@u1.home_address).to eq(@a1a)
     end
 
-    # it '.top_states_by_items_shipped' do
-    #   expect(@m1.top_states_by_items_shipped(3)[0].state).to eq("IA")
-    #   expect(@m1.top_states_by_items_shipped(3)[0].quantity).to eq(10)
-    #   expect(@m1.top_states_by_items_shipped(3)[1].state).to eq("OK")
-    #   expect(@m1.top_states_by_items_shipped(3)[1].quantity).to eq(8)
-    #   expect(@m1.top_states_by_items_shipped(3)[2].state).to eq("CO")
-    #   expect(@m1.top_states_by_items_shipped(3)[2].quantity).to eq(6)
-    # end
+    it '.top_states_by_items_shipped' do
+      expect(@m1.top_states_by_items_shipped(3)[0].state).to eq("IA")
+      expect(@m1.top_states_by_items_shipped(3)[0].quantity).to eq(10)
+      expect(@m1.top_states_by_items_shipped(3)[1].state).to eq("OK")
+      expect(@m1.top_states_by_items_shipped(3)[1].quantity).to eq(8)
+      expect(@m1.top_states_by_items_shipped(3)[2].state).to eq("CO")
+      expect(@m1.top_states_by_items_shipped(3)[2].quantity).to eq(6)
+    end
 
     # it '.top_cities_by_items_shipped' do
     #   expect(@m1.top_cities_by_items_shipped(3)[0].city).to eq("Anywhere")

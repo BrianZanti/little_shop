@@ -59,6 +59,14 @@ class User < ApplicationRecord
          .select('users.state, sum(order_items.quantity) AS quantity')
          .order('quantity DESC')
          .limit(limit)
+    # items.joins(:order_items)
+    #      .joins('join orders on orders.id = order_items.order_id')
+    #      .joins('join users on users.id = orders.user_id')
+    #      .where(order_items: {fulfilled: true}, orders: {status: :shipped})
+    #      .group('users.state')
+    #      .select('users.state, sum(order_items.quantity) AS quantity')
+    #      .order('quantity DESC')
+    #      .limit(limit)
   end
 
   def top_cities_by_items_shipped(limit)

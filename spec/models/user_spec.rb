@@ -6,17 +6,11 @@ RSpec.describe User, type: :model do
     it { should validate_uniqueness_of :email }
     it { should validate_presence_of :password }
     it { should validate_presence_of :name }
-    # it { should validate_presence_of :address }
-    # it { should validate_presence_of :city }
-    # it { should validate_presence_of :state }
-    # it { should validate_presence_of :zip }
   end
 
   describe 'relationships' do
-    # as user
     it { should have_many :orders }
     it { should have_many(:order_items).through(:orders)}
-    # as merchant
     it { should have_many :items }
   end
 
@@ -86,6 +80,7 @@ RSpec.describe User, type: :model do
       o5 = create(:shipped_order, user: @u1, address_id: @a5a.id)
       o6 = create(:cancelled_order, user: u5, address_id: @a6a.id)
       o7 = create(:order, user: u6)
+
       @oi1 = create(:order_item, item: @i1, order: o1, quantity: 2, created_at: 1.days.ago)
       @oi2 = create(:order_item, item: @i2, order: o2, quantity: 8, created_at: 7.days.ago)
       @oi3 = create(:order_item, item: @i2, order: o3, quantity: 6, created_at: 7.days.ago)
@@ -153,13 +148,10 @@ RSpec.describe User, type: :model do
       expect(@m1.top_cities_by_items_shipped(3)[1].city).to eq("Tulsa")
       expect(@m1.top_cities_by_items_shipped(3)[1].state).to eq("OK")
       expect(@m1.top_cities_by_items_shipped(3)[1].quantity).to eq(8)
-      expect(@m1.top_cities_by_items_shipped(3)[2].city).to eq("Anywhere")
-      expect(@m1.top_cities_by_items_shipped(3)[2].state).to eq("CO")
-      expect(@m1.top_cities_by_items_shipped(3)[2].quantity).to eq(6)
+      expect(@m1.top_cities_by_items_shipped(3)[2].city).to eq("Des Moines")
+      expect(@m1.top_cities_by_items_shipped(3)[2].state).to eq("IA")
+      expect(@m1.top_cities_by_items_shipped(3)[2].quantity).to eq(4)
     end
-
-
-
 
     it '.top_users_by_money_spent' do
       expect(@m1.top_users_by_money_spent(3)[0].name).to eq(@u3.name)
@@ -199,12 +191,6 @@ RSpec.describe User, type: :model do
 
     describe "statistics" do
       before :each do
-        # u1 = create(:user, state: "CO", city: "Fairfield")
-        # u2 = create(:user, state: "OK", city: "OKC")
-        # u3 = create(:user, state: "IA", city: "Fairfield")
-        # u4 = create(:user, state: "IA", city: "Des Moines")
-        # u5 = create(:user, state: "IA", city: "Des Moines")
-        # u6 = create(:user, state: "IA", city: "Des Moines")
         u1 = create(:user)
         u2 = create(:user)
         u3 = create(:user)

@@ -19,6 +19,7 @@ RSpec.describe Item, type: :model do
     describe 'item popularity' do
       before :each do
         merchant = create(:merchant)
+        create(:address, user: merchant)
         @items = create_list(:item, 6, user: merchant)
         user = create(:user)
 

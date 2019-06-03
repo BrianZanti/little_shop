@@ -5,22 +5,32 @@
   <p>Email: <%= @user.email %></p>
   <p>Role: <%= @user.role %></p>
   <aside id="address-details">
-    <h3>Address:</h3>
-    <p><%= @user.address %></p>
-    <p>
-      <%= @user.city %>,
-      <%= @user.state %>
-      <%= @user.zip %>
-    </p>
+    <% @addresses.each do |address| %>
+      <div id="address-<%=address.id%>">
+        <h3>Address:</h3>
+        <p><%= address.street_address %></p>
+        <p><%= address.nickname%></p>
+        <p><%= address.city %>,
+          <%= address.state %>
+          <%= address.zip %>
+        </p>
+        <%unless address.is_part_of_completed_order?%>
+          <%= link_to 'Delete Address', profile_address_path(address), method: :delete%>
+        <%else%>
+          <p>Cannot Delete or Change Address</p>
+        <%end%>
+      </div>
+    <% end %>
   </aside>
   <p><%= link_to 'Edit Profile Data', edit_profile_path unless current_admin? %></p>
+  <p><%= link_to 'Add Address', new_profile_address_path unless current_admin?%></p>
 </section>
 
 <section id="orders-data">
   <h2>Order Data</h2>
   <p><% if @user.orders.any? %>
-  <%= link_to 'Customer Orders', profile_orders_path %>
+    <%= link_to 'Customer Orders', profile_orders_path %>
   <% else %>
-  You have no orders yet.
+    You have no orders yet.
   <% end %></p>
 </section>

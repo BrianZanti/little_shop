@@ -95,6 +95,15 @@ RSpec.describe 'Profile Orders page', type: :feature do
         expect(page).to have_content("Item Count: #{@order.total_item_count}")
         expect(page).to have_content("Total Cost: #{number_to_currency(@order.total_cost)}")
       end
+
+      it 'show be able to change order address' do
+        @user.reload
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+        visit profile_order_path(@order)
+        expect(page).to have_content("Current shipping address: #{@order.address.street_address} #{@order.address.state}, #{@order.address.city} #{@order.address.zip}")
+      end
     end
+
   end
 end

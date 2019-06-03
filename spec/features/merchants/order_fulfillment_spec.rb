@@ -32,7 +32,7 @@ RSpec.describe 'merchant order show workflow' do
         visit dashboard_order_path(@order)
 
         expect(page).to have_content("Customer Name: #{@user.name}")
-        expect(page).to have_content("Customer Address: #{@user.address} #{@user.city}, #{@user.state} #{@user.zip}")
+        expect(page).to have_content("Customer Address: #{@user.addresses.first.address} #{@user.addresses.first.city}, #{@user.addresses.first.state} #{@user.addresses.first.zip_code}")
       end
 
       it 'shows item information for that merchant' do

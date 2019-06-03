@@ -4,7 +4,9 @@ RSpec.describe 'Admin User Show' do
   describe 'as an admin' do
     it 'sees the same info a user sees, without option to edit' do
       user = create(:user)
+      address_1 = create(:address, user: user)
       admin = create(:admin)
+      address_2 = create(:address, user: admin)
 
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(admin)
 

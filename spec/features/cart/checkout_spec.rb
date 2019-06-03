@@ -8,7 +8,7 @@ RSpec.describe "Checking out" do
     @merchant_2 = create(:merchant)
 
     @address_1 = create(:address, user: @merchant_1)
-    @address_1 = create(:address, user: @merchant_2)
+    @address_2 = create(:address, user: @merchant_2)
 
     @item_1 = create(:item, user: @merchant_1, inventory: 3)
     @item_2 = create(:item, user: @merchant_2)
@@ -27,6 +27,7 @@ RSpec.describe "Checking out" do
   context "as a logged in regular user" do
     before :each do
       user = create(:user)
+      address_3 = create(:address, user: user)
       login_as(user)
       visit cart_path
 

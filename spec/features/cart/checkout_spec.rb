@@ -56,6 +56,34 @@ RSpec.describe "Checking out" do
       end
     end
 
+    # it "should carry selected (first) address forward with new order" do
+    #   find(:css, "#radio-button-for-address-#{@address_3.id}").click
+    #   click_button "Check Out"
+    #   @new_order = Order.last
+    #
+    #   expect(current_path).to eq(profile_orders_path)
+    #   # expect(page).to have_content("Your order has been created!")
+    #   # expect(page).to have_content("Cart: 0")
+    #   # within("#order-#{@new_order.id}") do
+    #   #   expect(page).to have_link("Order ID #{@new_order.id}")
+    #   #   expect(page).to have_content("Status: pending")
+    #   # end
+    # end
+    #
+    # it "should carry selected (second) address forward with new order" do
+    #   find(:css, "#radio-button-for-address-#{@address_4.id}").click
+    #   click_button "Check Out"
+    #   @new_order = Order.last
+    #
+    #   expect(current_path).to eq(profile_orders_path)
+    #   # expect(page).to have_content("Your order has been created!")
+    #   # expect(page).to have_content("Cart: 0")
+    #   # within("#order-#{@new_order.id}") do
+    #   #   expect(page).to have_link("Order ID #{@new_order.id}")
+    #   #   expect(page).to have_content("Status: pending")
+    #   # end
+    # end
+
     it "should create order items" do
       click_button "Check Out"
       @new_order = Order.last

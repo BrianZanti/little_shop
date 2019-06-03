@@ -6,6 +6,7 @@ RSpec.describe 'Profile Orders page', type: :feature do
   before :each do
     @user = create(:user)
     @admin = create(:admin)
+    @address = create(:address, user: @user)
 
     @merchant_1 = create(:merchant)
     @merchant_2 = create(:merchant)
@@ -27,7 +28,7 @@ RSpec.describe 'Profile Orders page', type: :feature do
     describe 'should show information about each order when I do have orders' do
       before :each do
         yesterday = 1.day.ago
-        @order = create(:order, user: @user, created_at: yesterday)
+        @order = create(:order, user: @user, created_at: yesterday, address_id: @address.id)
         @oi_1 = create(:order_item, order: @order, item: @item_1, price: 1, quantity: 1, created_at: yesterday, updated_at: yesterday)
         @oi_2 = create(:fulfilled_order_item, order: @order, item: @item_2, price: 2, quantity: 1, created_at: yesterday, updated_at: 2.hours.ago)
       end
@@ -48,6 +49,7 @@ RSpec.describe 'Profile Orders page', type: :feature do
           expect(page).to have_content("Status: #{@order.status}")
           expect(page).to have_content("Item Count: #{@order.total_item_count}")
           expect(page).to have_content("Total Cost: #{@order.total_cost}")
+          expect(page).to have_content("Shipping Address: #{@address.street}, #{@address.city} #{@address.state} #{@address.zip_code}")
         end
       end
     end

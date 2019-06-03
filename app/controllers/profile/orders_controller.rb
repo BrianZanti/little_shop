@@ -4,6 +4,8 @@ class Profile::OrdersController < ApplicationController
   def index
     @user = current_user
     @orders = current_user.orders
+    
+    @address = Address.find(order.address_id)
   end
 
   def show

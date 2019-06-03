@@ -26,16 +26,27 @@ RSpec.describe "Checking out" do
 
   context "as a logged in regular user" do
     before :each do
-      user = create(:user)
-      address_3 = create(:address, user: user)
-      login_as(user)
+      @user = create(:user)
+      @address_3 = create(:address, user: @user)
+      @address_4 = create(:address, user: @user)
+      login_as(@user)
       visit cart_path
+    end
 
-      click_button "Check Out"
-      @new_order = Order.last
+    it 'should show all addresses for the user with radio buttons' do
+      expect(page).to have_content("Select a shipping address:")
+      within "#radio-button-for-address-#{@address_3.id}" do
+        expect(page).to have_content(@address_3.nickname)
+      end
+      within "#radio-button-for-address-#{@address_4.id}" do
+        expect(page).to have_content(@address_4.nickname)
+      end
     end
 
     it "should create a new order" do
+      click_button "Check Out"
+      @new_order = Order.last
+
       expect(current_path).to eq(profile_orders_path)
       expect(page).to have_content("Your order has been created!")
       expect(page).to have_content("Cart: 0")
@@ -46,6 +57,9 @@ RSpec.describe "Checking out" do
     end
 
     it "should create order items" do
+      click_button "Check Out"
+      @new_order = Order.last
+
       visit profile_order_path(@new_order)
 
       within("#oitem-#{@new_order.order_items.first.id}") do

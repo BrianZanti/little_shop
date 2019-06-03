@@ -5,7 +5,9 @@ include ActionView::Helpers::NumberHelper
 RSpec.describe "Checking out" do
   before :each do
     @merchant_1 = create(:merchant)
+    create(:address, user: @merchant_1)
     @merchant_2 = create(:merchant)
+    create(:address, user: @merchant_2)
     @item_1 = create(:item, user: @merchant_1, inventory: 3)
     @item_2 = create(:item, user: @merchant_2)
     @item_3 = create(:item, user: @merchant_2)
@@ -23,6 +25,7 @@ RSpec.describe "Checking out" do
   context "as a logged in regular user" do
     before :each do
       user = create(:user)
+      create(:address, user: user)
       login_as(user)
       visit cart_path
 
@@ -88,5 +91,14 @@ RSpec.describe "Checking out" do
       click_link "log in"
       expect(current_path).to eq(login_path)
     end
+  end
+  it 'user has no address, so can\'t checkout' do
+    user = create(:user)
+    login_as(user)
+    visit cart_path
+ 
+     expect(page).to have_link 'Click here to add an address in order to checkout'
+     click_link 'Click here to add an address in order to checkout'
+     expect(current_path).to eq(new_profile_address_path)
   end
 end

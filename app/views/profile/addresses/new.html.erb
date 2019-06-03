@@ -1,0 +1,28 @@
+<%= form_for @address, url: profile_addresses_path do |f| %>
+  <p>
+    <%= f.label :nickname%>
+    <%= f.text_field :nickname%>
+  </p>
+
+  <p>
+    <%= f.label :street_address%>
+    <%= f.text_field :street_address%>
+  </p>
+
+  <p>
+    <%= f.label :state%>
+    <%= f.text_field :state%>
+  </p>
+
+  <p>
+    <%= f.label :city%>
+    <%= f.text_field :city%>
+  </p>
+
+  <p>
+    <%= f.label :zip%>
+    <%= f.text_field :zip%>
+  </p>
+
+  <%= f.submit 'Submit'%>
+<%end%>

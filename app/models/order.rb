@@ -21,6 +21,7 @@ class Order < ApplicationRecord
     self.joins(:items)
         .where(status: :pending)
         .where(items: {merchant_id: merchant_id})
+        .order(:id)
         .distinct
   end
 

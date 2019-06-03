@@ -7,6 +7,7 @@ RSpec.describe 'Profile Orders page', type: :feature do
     @user = create(:user)
     @admin = create(:admin)
     @address = create(:address, user: @user)
+    @address_2 = create(:address, user: @user)
 
     @merchant_1 = create(:merchant)
     @merchant_2 = create(:merchant)
@@ -22,6 +23,51 @@ RSpec.describe 'Profile Orders page', type: :feature do
         visit profile_orders_path
 
         expect(page).to have_content('You have no orders yet')
+      end
+
+      it 'allows user to delete all addresses not on orders from profile page' do
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+        visit profile_path
+
+        within "#address-details-#{@address.id}" do
+          expect(page).to have_content(@address.street)
+          click_button "Delete This Address"
+        end
+
+        within "#address-handler" do
+          expect(page).to_not have_content(@address.street)
+          expect(page).to have_content(@address_2.street)
+        end
+
+        within "#address-details-#{@address_2.id}" do
+          expect(page).to have_content(@address_2.street)
+          click_button "Delete This Address"
+        end
+
+        within "#address-handler" do
+          expect(page).to_not have_content(@address.street)
+          expect(page).to_not have_content(@address_2.street)
+          expect(page).to have_content("No addresses on file")
+        end
+      end
+
+      it 'allows user to edit addresses from profile page' do
+        # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+        #
+        # visit profile_path
+        #
+        # within ""
+        # save_and_open_page
+      end
+
+      it 'allows user to add addresses from profile page' do
+        # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+        #
+        # visit profile_path
+        #
+        # within ""
+        # save_and_open_page
       end
     end
 
@@ -57,7 +103,7 @@ RSpec.describe 'Profile Orders page', type: :feature do
     describe 'should show a single order show page' do
       before :each do
         yesterday = 1.day.ago
-        @order = create(:order, user: @user, created_at: yesterday)
+        @order = create(:order, user: @user, created_at: yesterday, address: @address)
         @oi_1 = create(:order_item, order: @order, item: @item_1, price: 1, quantity: 3, created_at: yesterday, updated_at: yesterday)
         @oi_2 = create(:fulfilled_order_item, order: @order, item: @item_2, price: 2, quantity: 5, created_at: yesterday, updated_at: 2.hours.ago)
       end
@@ -68,11 +114,50 @@ RSpec.describe 'Profile Orders page', type: :feature do
         visit profile_order_path(@order)
       end
 
+      it 'shows option to update shipping address' do
+        @user.reload
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+        visit profile_order_path(@order)
+
+        expect(page).to have_button("Update Shipping Address")
+      end
+
+      it 'has radio buttons to select a shipping address' do
+        @user.reload
+
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+        visit profile_order_path(@order)
+
+        within "#current-shipping-address" do
+          expect(page).to have_content("Current Shipping Address: #{@address.street}")
+          expect(@order.address).to eq(@address)
+        end
+
+        find(:css, "#radio-button-for-address-#{@address_2.id}").click
+        click_button "Update Shipping Address"
+        @order.reload
+
+        within "#current-shipping-address" do
+          expect(page).to have_content("Current Shipping Address: #{@address_2.street}")
+          expect(@order.address).to eq(@address_2)
+        end
+
+        find(:css, "#radio-button-for-address-#{@address.id}").click
+        click_button "Update Shipping Address"
+        @order.reload
+
+        within "#current-shipping-address" do
+          expect(page).to have_content("Current Shipping Address: #{@address.street}")
+          expect(@order.address).to eq(@address)
+        end
+      end
+
       after :each do
         expect(page).to have_content("Order ID #{@order.id}")
         expect(page).to have_content("Created: #{@order.created_at}")
         expect(page).to have_content("Last Update: #{@order.updated_at}")
         expect(page).to have_content("Status: #{@order.status}")
+
         within "#oitem-#{@oi_1.id}" do
           expect(page).to have_content(@oi_1.item.name)
           expect(page).to have_content(@oi_1.item.description)
@@ -84,6 +169,7 @@ RSpec.describe 'Profile Orders page', type: :feature do
           expect(page).to have_content("Subtotal: #{number_to_currency(@oi_1.price*@oi_1.quantity)}")
           expect(page).to have_content("Fulfilled: No")
         end
+
         within "#oitem-#{@oi_2.id}" do
           expect(page).to have_content(@oi_2.item.name)
           expect(page).to have_content(@oi_2.item.description)
@@ -94,6 +180,7 @@ RSpec.describe 'Profile Orders page', type: :feature do
           expect(page).to have_content("Subtotal: #{number_to_currency(@oi_2.price*@oi_2.quantity)}")
           expect(page).to have_content("Fulfilled: Yes")
         end
+
         expect(page).to have_content("Item Count: #{@order.total_item_count}")
         expect(page).to have_content("Total Cost: #{number_to_currency(@order.total_cost)}")
       end

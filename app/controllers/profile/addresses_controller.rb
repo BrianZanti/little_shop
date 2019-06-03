@@ -7,14 +7,9 @@ class Profile::AddressesController < ApplicationController
   def create
     @address = Address.new(address_params)
     @address.user_id = current_user.id
-    # if @address.save
       @address.save
       flash[:success] = "You added a new address."
       redirect_to profile_path
-    # else
-    #   flash[:error] = "That nickname was already taken."
-    #   redirect_to undetermined_path
-    # end
   end
 
   def update
@@ -30,8 +25,8 @@ class Profile::AddressesController < ApplicationController
   end
 
   def destroy
-    @address = Address.find(params[:id])
-    @address.destroy
+    @user = current_user
+    @user.addresses.delete(Address.find(params[:id]))
     redirect_to profile_path
   end
 

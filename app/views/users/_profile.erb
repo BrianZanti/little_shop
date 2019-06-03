@@ -35,6 +35,7 @@
     <p>No addresses on file</p>
   <% else %>
     <% @user.addresses.each do |address| %>
+    <br>
       <section id="address-details-<%= address.id %>">
         Nickname: <%= address.nickname %>
         Street: <%= address.street %>
@@ -49,6 +50,7 @@
     <% end %>
   <% end %>
   <% if current_reguser? %>
+  <br>
     <%= button_to 'Add New Address', new_profile_address_path, method: "get"%>
   <% end %>
 </section>

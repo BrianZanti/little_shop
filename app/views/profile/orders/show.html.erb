@@ -9,9 +9,11 @@
   <% if @shipping_address == nil %>
     <p>No shipping addresses on file</p>
   <% else %>
-    <p>Current Shipping Address: <%= @shipping_address.street %>, <%= @shipping_address.city %>, <%= @shipping_address.state %>, <%= @shipping_address.zip_code %></p>
+    <section id="current-shipping-address">
+      <p>Current Shipping Address: <%= @shipping_address.street %>, <%= @shipping_address.city %>, <%= @shipping_address.state %>, <%= @shipping_address.zip_code %></p>
+    </section>
   <% end %>
-  
+
   <% if @order.status == 'pending' || @order.status == 'packaged' %>
   <p><%= button_to 'Cancel Order', profile_order_path(@order), method: :delete %></p>
   <% end %>
@@ -21,7 +23,7 @@
     Update the shipping address on file:</br>
     <%= form_tag profile_update_address_path(@order), method: :patch do |f| %>
       <% current_user.addresses.each do |address| %>
-        <input name="shipping_id" value="<%= address.id %>" type="radio" checked> <%= address.nickname %>: <%= address.street %>, <%= address.city %>, <%= address.state %> <%= address.zip_code %> <br/>
+        <input id="radio-button-for-address-<%= address.id %>" name="shipping_id" value="<%= address.id %>" type="radio" checked> <%= address.nickname %>: <%= address.street %>, <%= address.city %>, <%= address.state %> <%= address.zip_code %> <br/>
       <% end %>
 
       <%= submit_tag "Update Shipping Address" %>

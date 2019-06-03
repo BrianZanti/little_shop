@@ -6,13 +6,15 @@ RSpec.describe 'the registration page' do
       visit registration_path
 
       fill_in :user_name, with: "name"
-      fill_in :user_address, with: "address"
-      fill_in :user_city, with: "city"
-      fill_in :user_state, with: "state"
-      fill_in :user_zip, with: "zip"
       fill_in :user_email, with: "example@gmail.com"
       fill_in :user_password, with: "password"
       fill_in :user_password_confirmation, with: "password"
+      fill_in 'Street address', with: "address"
+      fill_in 'Nickname', with: "oranges"
+      fill_in 'City', with: "city"
+
+      fill_in 'State', with: "state"
+      fill_in 'Zip', with: "zip"
 
       click_button "Submit"
 
@@ -35,10 +37,10 @@ RSpec.describe 'the registration page' do
 
       expect(page).to have_content("Password can't be blank")
       expect(page).to have_content("Name can't be blank")
-      expect(page).to have_content("Address can't be blank")
-      expect(page).to have_content("City can't be blank")
-      expect(page).to have_content("State can't be blank")
-      expect(page).to have_content("Zip can't be blank")
+      expect(page).to have_content("Addresses street address can't be blank")
+      expect(page).to have_content("Addresses city can't be blank")
+      expect(page).to have_content("Addresses state can't be blank")
+      expect(page).to have_content("Addresses zip can't be blank")
       expect(page).to have_content("Email can't be blank")
     end
 
@@ -49,21 +51,22 @@ RSpec.describe 'the registration page' do
       visit registration_path
 
       fill_in :user_name, with: "name_1"
-      fill_in :user_address, with: "address_1"
-      fill_in :user_city, with: "city_1"
-      fill_in :user_state, with: "state_1"
-      fill_in :user_zip, with: "zip_1"
       fill_in :user_email, with: "example@gmail.com"
       fill_in :user_password, with: "password"
       fill_in :user_password_confirmation, with: "password"
+      fill_in 'Street address', with: "address_1"
+      fill_in 'City', with: "city_1"
+      fill_in 'State', with: "state_1"
+      fill_in 'Zip', with: "zip_1"
+      fill_in 'Nickname', with: "Oranges"
 
       click_button "Submit"
 
       expect(current_path).to eq(registration_path)
       expect(page).to have_content("Email has already been taken")
-
       expect(page).to have_css("input[value='name_1']")
       expect(page).to have_css("input[value='address_1']")
+      expect(page).to have_css("input[value='home']")
       expect(page).to have_css("input[value='city_1']")
       expect(page).to have_css("input[value='state_1']")
       expect(page).to have_css("input[value='zip_1']")
@@ -75,13 +78,13 @@ RSpec.describe 'the registration page' do
       visit registration_path
 
       fill_in :user_name, with: "name"
-      fill_in :user_address, with: "address"
-      fill_in :user_city, with: "city"
-      fill_in :user_state, with: "state"
-      fill_in :user_zip, with: "zip"
       fill_in :user_email, with: "example@gmail.com"
       fill_in :user_password, with: "password"
       fill_in :user_password_confirmation, with: "a different password"
+      fill_in 'Street address', with: "address"
+      fill_in 'City', with: "city"
+      fill_in 'State', with: "state"
+      fill_in 'Zip', with: "zip"
 
       click_button "Submit"
 

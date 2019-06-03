@@ -14,9 +14,9 @@ class User < ApplicationRecord
   # as a merchant
   has_many :items, foreign_key: 'merchant_id'
 
-  def active_items
-    items.where(active: true).order(:name)
-  end
+  # def active_items
+  #   items.where(active: true).order(:name)
+  # end
 
   def top_items_sold_by_quantity(limit)
     items.joins(order_items: :order)
@@ -149,7 +149,6 @@ class User < ApplicationRecord
     .order('order_count DESC')
     .limit(limit)
   end
-
 
   def self.top_address_cities_by_order_count(limit)
     self.joins(:orders)

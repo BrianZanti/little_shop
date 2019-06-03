@@ -12,6 +12,7 @@ class UsersController < ApplicationController
 
   def edit
     @user = current_user
+    @address = current_user.addresses.last
   end
 
   def create

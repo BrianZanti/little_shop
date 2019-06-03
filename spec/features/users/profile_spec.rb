@@ -38,13 +38,13 @@ RSpec.describe 'user profile', type: :feature do
 
         expect(current_path).to eq('/profile/edit')
         expect(find_field('Name').value).to eq(@user.name)
-        # expect(find_field('Email').value).to eq(@user.email)
-        # expect(find_field('Street').value).to eq(@user.addresses.last.street)
-        # expect(find_field('City').value).to eq(@user.addresses.last.city)
-        # expect(find_field('State').value).to eq(@user.addresses.last.state)
-        # expect(find_field('Zip').value).to eq(@user.addresses.last.zip_code)
-        # expect(find_field('Password').value).to eq(nil)
-        # expect(find_field('Password confirmation').value).to eq(nil)
+        expect(find_field('Email').value).to eq(@user.email)
+        expect(find_field('Street').value).to eq(@user.addresses.last.street)
+        expect(find_field('City').value).to eq(@user.addresses.last.city)
+        expect(find_field('State').value).to eq(@user.addresses.last.state)
+        expect(find_field('Zip').value).to eq(@user.addresses.last.zip_code)
+        expect(find_field('Password').value).to eq(nil)
+        expect(find_field('Password confirmation').value).to eq(nil)
       end
     end
 

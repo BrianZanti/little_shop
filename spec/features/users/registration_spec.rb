@@ -25,17 +25,6 @@ RSpec.describe 'the registration page' do
     end
   end
 
-
-
-
-
-
-
-
-
-
-
-
   describe 'sad path' do
     it "should display error messages for each unfilled field" do
       visit registration_path

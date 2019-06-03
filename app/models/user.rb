@@ -142,4 +142,25 @@ class User < ApplicationRecord
   def self.bottom_merchants_by_fulfillment_time(limit)
     merchants_sorted_by_fulfillment_time(limit, :desc)
   end
+
+  def self.top_address_states_by_order_count(limit)
+    self.joins(:orders)
+    .joins('JOIN addresses ON orders.user_id = addresses.user_id')
+    .where(orders: {status: :shipped})
+    .group('addresses.state')
+    .select('addresses.state, COUNT(orders.id) AS order_count')
+    .order('order_count DESC')
+    .limit(limit)
+  end
+
+
+  def self.top_address_cities_by_order_count(limit)
+    self.joins(:orders)
+    .joins('JOIN addresses ON orders.user_id = addresses.user_id')
+    .where(orders: {status: :shipped})
+    .group('addresses.state, addresses.city')
+    .select('addresses.city, addresses.state, count(orders.id) AS order_count')
+    .order('order_count DESC')
+    .limit(limit)
+  end
 end

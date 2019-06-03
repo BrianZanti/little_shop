@@ -134,5 +134,53 @@ RSpec.describe 'user profile', type: :feature do
 
       expect(page).to have_content("Email has already been taken")
     end
+
+    it 'shows all user addresses and buttons' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+      visit profile_path
+
+      within '#address-handler' do
+        expect(page).to have_content("Addresses on File:")
+        within "#address-details-#{@address_1.id}" do
+          expect(page).to have_content("Street: #{@user.addresses[0].street}")
+          expect(page).to have_content("City: #{@user.addresses[0].city}")
+          expect(page).to have_button("Edit This Address")
+          expect(page).to have_button("Delete This Address")
+        end
+        within "#address-details-#{@address_2.id}" do
+          expect(page).to have_content("Street: #{@user.addresses[1].street}")
+          expect(page).to have_content("City: #{@user.addresses[1].city}")
+          expect(page).to have_button("Edit This Address")
+          expect(page).to have_button("Delete This Address")
+        end
+      end
+    end
+
+    it 'does not show edit/delete buttons for addresses in completed orders' do
+
+      @admin = create(:admin)
+
+      @merchant_1 = create(:merchant)
+      @merchant_2 = create(:merchant)
+
+      @order_1 = create(:order, user: @user, address_id: @address_1.id, status: "shipped")
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+      visit profile_path
+
+      within '#address-handler' do
+        expect(page).to have_content("Addresses on File:")
+        within "#address-details-#{@address_1.id}" do
+          expect(page).to have_content("Street: #{@user.addresses[0].street}")
+          expect(page).to have_content("City: #{@user.addresses[0].city}")
+          expect(page).to_not have_button("Edit This Address")
+          expect(page).to_not have_button("Delete This Address")
+        end
+      end
+    end
+
+
   end
 end

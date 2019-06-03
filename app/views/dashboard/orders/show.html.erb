@@ -4,7 +4,7 @@
   <% if @user.addresses == [] %>
     <p>No address on file</p>
   <% else %>
-    <p><%= @user.addresses.first.address %></p>
+    <p><%= @user.addresses.first.street %></p>
     <p><%= @user.addresses.first.city %>, <%= @user.addresses.first.state %> <%= @user.addresses.first.zip_code %></p>
   <% end %>
 

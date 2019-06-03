@@ -6,6 +6,10 @@ RSpec.describe "Checking out" do
   before :each do
     @merchant_1 = create(:merchant)
     @merchant_2 = create(:merchant)
+
+    @address_1 = create(:address, user: @merchant_1)
+    @address_1 = create(:address, user: @merchant_2)
+
     @item_1 = create(:item, user: @merchant_1, inventory: 3)
     @item_2 = create(:item, user: @merchant_2)
     @item_3 = create(:item, user: @merchant_2)

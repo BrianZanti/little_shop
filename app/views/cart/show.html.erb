@@ -9,9 +9,7 @@
     Select a shipping address:</br>
     <%= form_tag profile_orders_path do |f| %>
       <% current_user.addresses.each do |address| %>
-        <section id="radio-button-for-address-<%= address.id %>">
-          <input name="shipping_id" value="<%= address.id %>" type="radio" checked> <%= address.nickname %>: <%= address.street %>, <%= address.city %>, <%= address.state %> <%= address.zip_code %> <br/>
-        </section>
+        <input id="radio-button-for-address-<%= address.id %>" name="shipping_id" value="<%= address.id %>" type="radio" checked> <%= address.nickname %>: <%= address.street %>, <%= address.city %>, <%= address.state %> <%= address.zip_code %> <br/>
       <% end %>
 
       <%= submit_tag "Check Out" %>

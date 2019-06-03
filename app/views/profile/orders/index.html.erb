@@ -13,8 +13,11 @@
           <p>Status: <%= order.status %></p>
           <p>Item Count: <%= order.total_item_count %></p>
           <p>Total Cost: <%= order.total_cost %></p>
-          <p>Shipping Address: <%= require 'pry'; binding.pry %></p>
-
+          <% if order.address == nil %>
+            <p>No address on file</p>
+          <% else %>
+            <p>Shipping Address: <%= order.address.street %>, <%= order.address.city %> <%= order.address.state %> <%= order.address.zip_code %></p>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>

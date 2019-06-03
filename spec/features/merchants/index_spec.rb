@@ -203,10 +203,10 @@ RSpec.describe "merchant index workflow", type: :feature do
         visit merchants_path
 
         within("#top-cities-by-order") do
-          expect(page).to have_content("Des Moines, IA: 2 orders")
           expect(page).to have_content("Fairfield, CO: 2 orders")
-          expect(page).to have_content("Fairfield, IA: 1 order")
-          expect(page).to_not have_content("Fairfield, IA: 1 orders")
+          expect(page).to have_content("Des Moines, IA: 2 orders")
+          expect(page).to have_content("OKC, OK: 1 order")
+          expect(page).to_not have_content("OKC, OK: 1 orders")
         end
       end
 

@@ -155,8 +155,10 @@ class User < ApplicationRecord
     .joins('JOIN addresses ON users.id = addresses.user_id')
     .where(orders: {status: :shipped})
     .group('addresses.state, addresses.city')
+    .group('users.id')
     .select('addresses.city, addresses.state, count(orders.id) AS order_count')
     .order('order_count DESC')
+    .order('users.id')
     .limit(limit)
   end
 end

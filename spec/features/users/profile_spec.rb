@@ -68,10 +68,10 @@ RSpec.describe 'user profile', type: :feature do
 
           fill_in :user_name, with: @updated_name
           fill_in :user_email, with: @updated_email
-          fill_in :street, with: @updated_street
-          fill_in :city, with: @updated_city
-          fill_in :state, with: @updated_state
-          fill_in :zip_code, with: @updated_zip_code
+          fill_in :address_street, with: @updated_street
+          fill_in :address_city, with: @updated_city
+          fill_in :address_state, with: @updated_state
+          fill_in :address_zip_code, with: @updated_zip_code
           fill_in :user_password, with: @updated_password
           fill_in :user_password_confirmation, with: @updated_password
 
@@ -98,10 +98,10 @@ RSpec.describe 'user profile', type: :feature do
 
           fill_in :user_name, with: @updated_name
           fill_in :user_email, with: @updated_email
-          fill_in :street, with: @updated_street
-          fill_in :city, with: @updated_city
-          fill_in :state, with: @updated_state
-          fill_in :zip_code, with: @updated_zip_code
+          fill_in :address_street, with: @updated_street
+          fill_in :address_city, with: @updated_city
+          fill_in :address_state, with: @updated_state
+          fill_in :address_zip_code, with: @updated_zip_code
 
           click_button 'Submit'
 

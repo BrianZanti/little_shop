@@ -40,13 +40,9 @@ class UsersController < ApplicationController
   end
 
   def update
+    # require 'pry'; binding.pry
     @user = current_user
-    @address = Address.new(
-                          street: params[:street],
-                          city: params[:city],
-                          state: params[:state],
-                          zip_code: params[:zip_code]
-                        )
+    @address = Address.new(update_address_params)
     @user.update(user_update_params)
     if @user.save
       @address.user_id = @user.id
@@ -70,5 +66,9 @@ class UsersController < ApplicationController
     uup.delete(:password) if uup[:password].empty?
     uup.delete(:password_confirmation) if uup[:password_confirmation].empty?
     uup
+  end
+
+  def update_address_params
+    params.require(:address).permit(:street, :city, :state, :zip_code)
   end
 end

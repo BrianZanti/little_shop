@@ -12,7 +12,7 @@ RSpec.describe 'user profile', type: :feature do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 
       visit profile_path
-save_and_open_page
+
       within '#profile-data' do
         expect(page).to have_content("Role: #{@user.role}")
         expect(page).to have_content("Email: #{@user.email}")
@@ -78,7 +78,6 @@ save_and_open_page
           click_button 'Submit'
 
           updated_user = User.find(@user.id)
-
           expect(current_path).to eq(profile_path)
           expect(page).to have_content("Your profile has been updated")
           expect(page).to have_content("#{@updated_name}")

@@ -8,7 +8,6 @@ class UsersController < ApplicationController
 
   def show
     @user = current_user
-    @home_address = @user.home_address
   end
 
   def edit

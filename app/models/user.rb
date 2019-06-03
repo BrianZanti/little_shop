@@ -13,14 +13,6 @@ class User < ApplicationRecord
 
   # as a merchant
   has_many :items, foreign_key: 'merchant_id'
-  #
-  # def active_address
-  #   addresses.where(user_id: params[:id])
-  # end
-
-  def home_address
-    addresses.find_by(nickname: "home")
-  end
 
   def active_items
     items.where(active: true).order(:name)
@@ -53,10 +45,10 @@ class User < ApplicationRecord
   def top_states_by_items_shipped(limit)
     items.joins(:order_items)
          .joins('join orders on orders.id = order_items.order_id')
-         .joins('join users on users.id = orders.user_id')
+         .joins('join addresses on addresses.id = orders.address_id')
          .where(order_items: {fulfilled: true}, orders: {status: :shipped})
-         .group('users.state')
-         .select('users.state, sum(order_items.quantity) AS quantity')
+         .group('addresses.state')
+         .select('addresses.state, sum(order_items.quantity) AS quantity')
          .order('quantity DESC')
          .limit(limit)
   end
@@ -64,10 +56,10 @@ class User < ApplicationRecord
   def top_cities_by_items_shipped(limit)
     items.joins(:order_items)
          .joins('join orders on orders.id = order_items.order_id')
-         .joins('join users on users.id = orders.user_id')
+         .joins('join addresses on addresses.id = orders.address_id')
          .where(order_items: {fulfilled: true}, orders: {status: :shipped})
-         .group('users.state, users.city')
-         .select('users.state, users.city, sum(order_items.quantity) AS quantity')
+         .group('addresses.state, addresses.city')
+         .select('addresses.state, addresses.city, sum(order_items.quantity) AS quantity')
          .order('quantity DESC')
          .limit(limit)
   end
@@ -147,21 +139,25 @@ class User < ApplicationRecord
     merchants_sorted_by_fulfillment_time(limit, :desc)
   end
 
-  def self.top_user_states_by_order_count(limit)
+  def self.top_address_states_by_order_count(limit)
+
     self.joins(:orders)
-        .where(orders: {status: :shipped})
-        .group(:state)
-        .select('users.state, count(orders.id) AS order_count')
-        .order('order_count DESC')
-        .limit(limit)
+    .joins('JOIN addresses ON users.id = addresses.user_id')
+    .where(orders: {status: :shipped})
+    .group('addresses.state')
+    .select('addresses.state, COUNT(orders.id) AS order_count')
+    .order('order_count DESC')
+    .limit(limit)
   end
 
-  def self.top_user_cities_by_order_count(limit)
+
+  def self.top_address_cities_by_order_count(limit)
     self.joins(:orders)
-        .where(orders: {status: :shipped})
-        .group(:state, :city)
-        .select('users.city, users.state, count(orders.id) AS order_count')
-        .order('order_count DESC')
-        .limit(limit)
+    .joins('JOIN addresses ON users.id = addresses.user_id')
+    .where(orders: {status: :shipped})
+    .group('addresses.state, addresses.city')
+    .select('addresses.city, addresses.state, count(orders.id) AS order_count')
+    .order('order_count DESC')
+    .limit(limit)
   end
 end

@@ -46,7 +46,7 @@ RSpec.describe 'User Order workflow', type: :feature do
       expect(page).to have_button('Cancel Order')
 
       visit profile_order_path(@order_2)
-      expect(page).to have_button('Cancel Order')
+      expect(page).to_not have_button('Cancel Order')
 
       visit profile_order_path(@order_3)
       expect(page).to_not have_button('Cancel Order')
@@ -77,26 +77,27 @@ RSpec.describe 'User Order workflow', type: :feature do
       visit item_path(@item_2)
       expect(page).to have_content("In stock: #{@inventory_level + @purchased_amount}")
 
-      # cancel order 2
-      visit profile_order_path(@order_2)
-      click_button('Cancel Order')
+      ## According to the User story packaged orders can't be cancelled
+      # # cancel order 2
+      # visit profile_order_path(@order_2)
+      # click_button('Cancel Order')
 
-      expect(current_path).to eq(profile_orders_path)
+      # expect(current_path).to eq(profile_orders_path)
 
-      within "#order-#{@order_2.id}" do
-        expect(page).to have_content("Status: cancelled")
-      end
+      # within "#order-#{@order_2.id}" do
+      #   expect(page).to have_content("Status: cancelled")
+      # end
 
-      click_link "Order ID #{@order_2.id}"
+      # click_link "Order ID #{@order_2.id}"
 
-      @order_2.order_items.each do |oi|
-        within "#oitem-#{oi.id}" do
-          expect(page).to have_content("Fulfilled: No")
-        end
-      end
+      # @order_2.order_items.each do |oi|
+      #   within "#oitem-#{oi.id}" do
+      #     expect(page).to have_content("Fulfilled: No")
+      #   end
+      # end
 
-      visit item_path(@item_2)
-      expect(page).to have_content("In stock: #{@inventory_level + @purchased_amount + @purchased_amount}")
+      # visit item_path(@item_2)
+      # expect(page).to have_content("In stock: #{@inventory_level + @purchased_amount + @purchased_amount}")
     end
   end
 end

@@ -1,9 +1,10 @@
 <%= tag.div id: "order-#{@order.id}" do %>
   <p>Customer Name: <%= @user.name %></p>
+  <% if @order.address %>
   <p>Customer Address:</p>
-  <p><%= @user.address %></p>
-  <p><%= @user.city %>, <%= @user.state %> <%= @user.zip %></p>
-
+  <p><%= @order.address.street_address %></p>
+  <p><%= @order.address.city %>, <%= @order.address.state %> <%= @order.address.zip %></p>
+<%end%>
   <p>Order Status: <%= @order.status %></p>
 
   <% @order_items.each do |oitem| %>
@@ -18,7 +19,7 @@
         <p>Quantity: <%= oitem.quantity %></p>
         <p>Subtotal: <%= number_to_currency(oitem.subtotal) %></p>
         <p>Fulfilled: <%= oitem.fulfilled ? 'Yes' : 'No' %></p>
-        <% if !oitem.fulfilled && oitem.inventory_available %>
+        <% if !oitem.fulfilled && oitem.inventory_available && @order.address %>
           <%= button_to 'Fulfill', dashboard_fulfill_order_item_path(oitem), method: :put %>
         <% elsif !oitem.fulfilled && !oitem.inventory_available %>
           <p>You cannot fulfill this item</p>

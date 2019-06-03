@@ -6,14 +6,14 @@
   <p>Role: <%= @user.role %></p>
   <aside id="address-details">
     <h3>Home Address:</h3>
-    <% if @home_address == nil %>
+    <% if @user.addresses == [] %>
       <p>No Home Address on File</p>
     <% else %>
-      <p><%= @home_address.street %></p>
+      <p><%= @user.addresses.last.street %></p>
       <p>
-        <%= @home_address.city %>,
-        <%= @home_address.state %>
-        <%= @home_address.zip_code %>
+        <%= @user.addresses.last.city %>,
+        <%= @user.addresses.last.state %>
+        <%= @user.addresses.last.zip_code %>
       </p>
     <% end %>
   </aside>

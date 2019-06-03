@@ -14,10 +14,6 @@ class User < ApplicationRecord
   # as a merchant
   has_many :items, foreign_key: 'merchant_id'
 
-  def home_address
-    addresses.find_by(nickname: "home")
-  end
-
   def active_items
     items.where(active: true).order(:name)
   end

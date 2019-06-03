@@ -1,45 +1,51 @@
 <%= form_for @user, url: form_submit_path do |f| %>
-<p>
-  <%= f.label :name %>:
-  <%= f.text_field :name %>
-</p>
+  <p>
+    <%= f.label :name %>:
+    <%= f.text_field :name %>
+  </p>
 
-<p>
-  <%= f.label :address %>:
-  <%= f.text_field :address %>
-</p>
+  <p>
+    <%= f.label :email %>:
+    <%= f.text_field :email %>
+  </p>
 
-<p>
-  <%= f.label :city %>:
-  <%= f.text_field :city %>
-</p>
+  <p>
+    <%= f.label :password %>:
+    <%= f.password_field :password %>
+  </p>
 
-<p>
-  <%= f.label :state %>:
-  <%= f.text_field :state %>
-</p>
+  <p>
+    <%= f.label :password_confirmation %>:
+    <%= f.password_field :password_confirmation %>
+  </p>
+  <%= f.fields_for :addresses do |builder|%>
+    <% next if builder.object.is_part_of_completed_order? %>
+    <div id="address-<%=builder.object.id%>">
+      <p>
+        <%= builder.label :street_address%>:
+        <%= builder.text_field :street_address %>
+      </p>
+      <p>
+        <%= builder.label :nickname%>:
+        <%= builder.text_field :nickname%>
+      </p>
+      <p>
+        <%= builder.label :city %>:
+        <%= builder.text_field :city %>
+      </p>
 
-<p>
-  <%= f.label :zip %>:
-  <%= f.text_field :zip %>
-</p>
+      <p>
+        <%= builder.label :state %>:
+        <%= builder.text_field :state %>
+      </p>
 
-<p>
-  <%= f.label :email %>:
-  <%= f.text_field :email %>
-</p>
-
-<p>
-  <%= f.label :password %>:
-  <%= f.password_field :password %>
-</p>
-
-<p>
-  <%= f.label :password_confirmation %>:
-  <%= f.password_field :password_confirmation %>
-</p>
-
-<p>
-  <%= f.submit "Submit" %>
-</p>
+      <p>
+        <%= builder.label :zip %>:
+        <%= builder.text_field :zip %>
+      </p>
+    </div>
+  <%end%>
+  <p>
+    <%= f.submit "Submit" %>
+  </p>
 <% end %>

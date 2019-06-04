@@ -15,6 +15,16 @@ class Profile::AddressesController < ApplicationController
   def update
     @address = Address.find(params[:id])
     @address.update(address_params)
+    # @address.save
+    #
+    # @user = current_user
+    # @user.addresses.update_attributes(address_params)
+    # @address_to_update = Address.find(params[:id])
+    # @user.addresses.update(Address.find(params[:id]))(address_params)
+    #
+    # @user.addresses.
+
+
     flash[:success] = "Your Address has been updated!"
 
     redirect_to profile_path

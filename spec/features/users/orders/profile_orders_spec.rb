@@ -53,12 +53,47 @@ RSpec.describe 'Profile Orders page', type: :feature do
       end
 
       it 'allows user to edit addresses from profile page' do
-        # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
-        #
-        # visit profile_path
-        #
-        # within ""
-        # save_and_open_page
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+        @new_nickname = "new nickname"
+        @new_street = "new street"
+        @new_city = "new city"
+        @new_state = "new state"
+        @new_zip = "new zip code"
+
+        visit profile_path
+
+        within "#address-details-#{@address.id}" do
+          expect(page).to have_content(@address.street)
+          click_button "Edit This Address"
+        end
+
+        expect(current_path).to eq(edit_profile_address_path(@address.id))
+
+        expect(find_field('Nickname').value).to eq(@address.nickname)
+        expect(find_field('Street').value).to eq(@address.street)
+        expect(find_field('City').value).to eq(@address.city)
+        expect(find_field('State').value).to eq(@address.state)
+        expect(find_field('Zip code').value).to eq(@address.zip_code)
+
+        fill_in :address_nickname, with: @new_nickname
+        fill_in :address_street, with: @new_street
+        fill_in :address_city, with: @new_city
+        fill_in :address_state, with: @new_state
+        fill_in :address_zip_code, with: @new_zip
+
+        click_button "Submit"
+
+        @address.reload
+        expect(current_path).to eq(profile_path)
+
+        expect(@address.street).to eq(@new_street)
+
+        # within "#address-details-#{@address.id}" do
+        #   expect(page).to_not have_content(@address.street)
+        #   expect(page).to have_content(@new_street)
+        # end
+
       end
 
       it 'allows user to add addresses from profile page' do

@@ -56,6 +56,19 @@ RSpec.describe 'Profile Orders page', type: :feature do
           expect(page).to_not have_content(@address_2.street)
           expect(page).to have_content("No addresses on file")
         end
+
+        visit item_path(@item_1)
+        click_on "Add to Cart"
+
+        expect(current_path).to eq(cart_path)
+
+        expect(page).to_not have_button("Check Out")
+        expect(page).to have_content("You have no address on file")
+        expect(page).to have_button("Add New Address")
+
+        click_button "Add New Address"
+
+        expect(current_path).to eq(new_profile_address_path)
       end
 
       it 'allows user to edit addresses from profile page' do
@@ -88,12 +101,6 @@ RSpec.describe 'Profile Orders page', type: :feature do
         expect(current_path).to eq(profile_path)
 
         expect(@address.street).to eq(@new_street)
-
-        # within "#address-details-#{@address.id}" do
-        #   expect(page).to_not have_content(@address.street)
-        #   expect(page).to have_content(@new_street)
-        # end
-
       end
 
       it 'allows user to add addresses from profile page' do
@@ -118,7 +125,6 @@ RSpec.describe 'Profile Orders page', type: :feature do
         @user.reload
 
         expect(@user.addresses.last.nickname).to eq("#{@new_nickname}")
-
       end
     end
 

@@ -14,6 +14,12 @@ RSpec.describe 'Profile Orders page', type: :feature do
 
     @item_1 = create(:item, user: @merchant_1)
     @item_2 = create(:item, user: @merchant_2)
+
+    @new_nickname = "new nickname"
+    @new_street = "new street"
+    @new_city = "new city"
+    @new_state = "new state"
+    @new_zip = "new zip code"
   end
 
   context 'as a registered user' do
@@ -55,12 +61,6 @@ RSpec.describe 'Profile Orders page', type: :feature do
       it 'allows user to edit addresses from profile page' do
         allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
 
-        @new_nickname = "new nickname"
-        @new_street = "new street"
-        @new_city = "new city"
-        @new_state = "new state"
-        @new_zip = "new zip code"
-
         visit profile_path
 
         within "#address-details-#{@address.id}" do
@@ -97,12 +97,28 @@ RSpec.describe 'Profile Orders page', type: :feature do
       end
 
       it 'allows user to add addresses from profile page' do
-        # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
-        #
-        # visit profile_path
-        #
-        # within ""
-        # save_and_open_page
+        allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+        visit profile_path
+
+        click_button "Add New Address"
+
+        expect(current_path).to eq(new_profile_address_path)
+
+        fill_in :address_nickname, with: @new_nickname
+        fill_in :address_street, with: @new_street
+        fill_in :address_city, with: @new_city
+        fill_in :address_state, with: @new_state
+        fill_in :address_zip_code, with: @new_zip
+
+        click_button "Submit"
+
+        expect(current_path).to eq(profile_path)
+
+        @user.reload
+
+        expect(@user.addresses.last.nickname).to eq("#{@new_nickname}")
+
       end
     end
 

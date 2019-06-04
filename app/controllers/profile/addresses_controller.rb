@@ -7,23 +7,14 @@ class Profile::AddressesController < ApplicationController
   def create
     @address = Address.new(address_params)
     @address.user_id = current_user.id
-      @address.save
-      flash[:success] = "You added a new address."
-      redirect_to profile_path
+    @address.save
+    flash[:success] = "You added a new address."
+    redirect_to profile_path
   end
 
   def update
     @address = Address.find(params[:id])
     @address.update(address_params)
-    # @address.save
-    #
-    # @user = current_user
-    # @user.addresses.update_attributes(address_params)
-    # @address_to_update = Address.find(params[:id])
-    # @user.addresses.update(Address.find(params[:id]))(address_params)
-    #
-    # @user.addresses.
-
 
     flash[:success] = "Your Address has been updated!"
 
@@ -39,7 +30,6 @@ class Profile::AddressesController < ApplicationController
     @user.addresses.delete(Address.find(params[:id]))
     redirect_to profile_path
   end
-
 
   private
 

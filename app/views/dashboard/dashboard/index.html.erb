@@ -1,5 +1,4 @@
 <h1>Merchant Dashboard</h1>
-
 <div class="card float-left m-3 order-item-card">
   <div class="card-body">
     <h5 class="card-title"><%= @merchant.name %></h5>
@@ -25,6 +24,8 @@
     <h3>Discount Description: <%= discount.description %></h3>
     <p>Minimum Quantity (#): <%= discount.minimum_quantity %></p>
     <p>Discount Amount (%): <%= discount.discount_amount %></p>
+    <%= button_to "Edit This Discount", edit_dashboard_discount_path(discount.id), method: :get %>
+    <%= button_to "Delete This Discount", dashboard_discount_path(discount.id), method: :delete %>
     <br>
   </section>
   <% end %>

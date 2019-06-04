@@ -39,7 +39,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    # require 'pry'; binding.pry
     @user = current_user
     @address = Address.new(update_address_params)
     @user.update(user_update_params)

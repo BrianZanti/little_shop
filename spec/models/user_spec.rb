@@ -99,7 +99,6 @@ RSpec.describe User, type: :model do
     end
 
     # it '.active_items' do
-    #   require 'pry'; binding.pry
     #   expect(@m2.active_items).to eq([@i10])
     #   expect(@m1.active_items).to eq([@i1, @i2, @i3, @i4, @i5, @i6, @i7, @i8])
     # end

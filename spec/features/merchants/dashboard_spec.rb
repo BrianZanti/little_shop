@@ -97,3 +97,47 @@ RSpec.describe 'merchant dashboard' do
     end
   end
 end
+
+
+RSpec.describe 'merchant dashboard' do
+  before :each do
+    @merchant_1 = create(:merchant)
+    @address_1 = create(:address, user: @merchant_1)
+    # @discount_1 = create(:discount, user: @merchant_1)
+
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_1)
+
+    visit dashboard_path
+  end
+
+  describe 'merchants have full CRUD on discounts from their dashboard' do
+    it 'merchants can create discounts' do
+
+      new_description = "Black Friday Sale"
+      new_minimum_quantity = "10"
+      new_discount_amount = "50"
+
+      click_button "Add New Bulk Discount"
+
+      expect(current_path).to eq(new_dashboard_discount_path)
+
+      fill_in "Description", with: new_description
+      fill_in "Minimum quantity", with: new_minimum_quantity
+      fill_in "Discount amount", with: new_discount_amount
+
+      click_button "Create Discount"
+
+      new_discount = Discount.last
+
+      expect(current_path).to eq(dashboard_path)
+
+      expect(page).to have_content("Your discount has been created!")
+
+      within "#discount-#{new_discount.id}" do
+        expect(page).to have_content(new_description)
+        expect(page).to have_content(new_minimum_quantity)
+        expect(page).to have_content(new_discount_amount)
+      end
+    end
+  end
+end

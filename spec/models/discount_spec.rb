@@ -16,10 +16,22 @@ RSpec.describe Discount, type: :model do
     it { should belong_to :user }
   end
 
-  describe 'class methods' do
-    describe 'item popularity' do
-      before :each do
-      end
+  describe 'creation exists' do
+    it 'can create a discount' do
+      merchant = create(:user, role: 1)
+      discount = create(:discount, user: merchant)
+
+      expect(discount.description).to eq("Discount description 1")
+      expect(discount.minimum_quantity).to eq(4)
+      expect(discount.discount_amount).to eq(3)
+      expect(discount.user).to eq(merchant)
     end
   end
+
+  # describe 'class methods' do
+  #   describe 'item popularity' do
+  #     before :each do
+  #     end
+  #   end
+  # end
 end

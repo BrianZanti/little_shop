@@ -7,6 +7,8 @@ RSpec.describe "Checking out" do
     @merchant_1 = create(:merchant)
     @merchant_2 = create(:merchant)
 
+    @discount_1 = create(:discount, user: @merchant_1, minimum_quantity: 3, discount_amount: 20)
+
     @address_1 = create(:address, user: @merchant_1)
     @address_2 = create(:address, user: @merchant_2)
 
@@ -54,6 +56,71 @@ RSpec.describe "Checking out" do
         expect(page).to have_link("Order ID #{@new_order.id}")
         expect(page).to have_content("Status: pending")
       end
+    end
+
+    it "should show no discount when item quantity is less than minimum quantity" do
+      # click_button "Check Out"
+      # @new_order = Order.last
+      #
+      # expect(current_path).to eq(profile_orders_path)
+      # expect(page).to have_content("Your order has been created!")
+      # expect(page).to have_content("Cart: 0")
+      # within("#order-#{@new_order.id}") do
+      #   expect(page).to have_link("Order ID #{@new_order.id}")
+      #   expect(page).to have_content("Status: pending")
+      # end
+    end
+
+    xit "should show a discount when item quantity is equal to or more than minimum quantity" do
+      # click_button "Check Out"
+      # @new_order = Order.last
+      #
+      # expect(current_path).to eq(profile_orders_path)
+      # expect(page).to have_content("Your order has been created!")
+      # expect(page).to have_content("Cart: 0")
+      # within("#order-#{@new_order.id}") do
+      #   expect(page).to have_link("Order ID #{@new_order.id}")
+      #   expect(page).to have_content("Status: pending")
+      # end
+    end
+
+    xit "should show a higher-tiered discount when item quantity is equal to or more than minimum quantity for next tier" do
+      # click_button "Check Out"
+      # @new_order = Order.last
+      #
+      # expect(current_path).to eq(profile_orders_path)
+      # expect(page).to have_content("Your order has been created!")
+      # expect(page).to have_content("Cart: 0")
+      # within("#order-#{@new_order.id}") do
+      #   expect(page).to have_link("Order ID #{@new_order.id}")
+      #   expect(page).to have_content("Status: pending")
+      # end
+    end
+
+    xit "should not show discount if total item quantity exceeds minimum but individual item quantity does not" do
+      # click_button "Check Out"
+      # @new_order = Order.last
+      #
+      # expect(current_path).to eq(profile_orders_path)
+      # expect(page).to have_content("Your order has been created!")
+      # expect(page).to have_content("Cart: 0")
+      # within("#order-#{@new_order.id}") do
+      #   expect(page).to have_link("Order ID #{@new_order.id}")
+      #   expect(page).to have_content("Status: pending")
+      # end
+    end
+
+    xit "should not show discount if total item quantity exceeds minimum but individual item quantity does not" do
+      # click_button "Check Out"
+      # @new_order = Order.last
+      #
+      # expect(current_path).to eq(profile_orders_path)
+      # expect(page).to have_content("Your order has been created!")
+      # expect(page).to have_content("Cart: 0")
+      # within("#order-#{@new_order.id}") do
+      #   expect(page).to have_link("Order ID #{@new_order.id}")
+      #   expect(page).to have_content("Status: pending")
+      # end
     end
 
     it "should carry selected (first) address forward with new order" do

@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :order_items, through: :orders
 
   # as a merchant
+  has_many :discounts #, foreign_key: 'merchant_id'
   has_many :items, foreign_key: 'merchant_id'
 
   # def active_items

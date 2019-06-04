@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   namespace :profile do
     resources :orders, only: [:index, :show, :destroy, :create]
     patch '/orders/:id', to: 'orders#update', as: :update_address
-    resources :addresses, only: [:new, :create, :edit, :destroy]
+    resources :addresses, only: [:new, :create, :edit, :destroy, :update]
   end
 
   namespace :dashboard do

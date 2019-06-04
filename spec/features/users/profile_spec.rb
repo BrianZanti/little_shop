@@ -38,13 +38,13 @@ RSpec.describe 'user profile', type: :feature do
 
         expect(current_path).to eq('/profile/edit')
         expect(find_field('Name').value).to eq(@user.name)
-        # expect(find_field('Email').value).to eq(@user.email)
-        # expect(find_field('Street').value).to eq(@user.addresses.last.street)
-        # expect(find_field('City').value).to eq(@user.addresses.last.city)
-        # expect(find_field('State').value).to eq(@user.addresses.last.state)
-        # expect(find_field('Zip').value).to eq(@user.addresses.last.zip_code)
-        # expect(find_field('Password').value).to eq(nil)
-        # expect(find_field('Password confirmation').value).to eq(nil)
+        expect(find_field('Email').value).to eq(@user.email)
+        expect(find_field('Street').value).to eq(@user.addresses.last.street)
+        expect(find_field('City').value).to eq(@user.addresses.last.city)
+        expect(find_field('State').value).to eq(@user.addresses.last.state)
+        expect(find_field('Zip').value).to eq(@user.addresses.last.zip_code)
+        expect(find_field('Password').value).to eq(nil)
+        expect(find_field('Password confirmation').value).to eq(nil)
       end
     end
 
@@ -68,10 +68,10 @@ RSpec.describe 'user profile', type: :feature do
 
           fill_in :user_name, with: @updated_name
           fill_in :user_email, with: @updated_email
-          fill_in :street, with: @updated_street
-          fill_in :city, with: @updated_city
-          fill_in :state, with: @updated_state
-          fill_in :zip_code, with: @updated_zip_code
+          fill_in :address_street, with: @updated_street
+          fill_in :address_city, with: @updated_city
+          fill_in :address_state, with: @updated_state
+          fill_in :address_zip_code, with: @updated_zip_code
           fill_in :user_password, with: @updated_password
           fill_in :user_password_confirmation, with: @updated_password
 
@@ -98,10 +98,10 @@ RSpec.describe 'user profile', type: :feature do
 
           fill_in :user_name, with: @updated_name
           fill_in :user_email, with: @updated_email
-          fill_in :street, with: @updated_street
-          fill_in :city, with: @updated_city
-          fill_in :state, with: @updated_state
-          fill_in :zip_code, with: @updated_zip_code
+          fill_in :address_street, with: @updated_street
+          fill_in :address_city, with: @updated_city
+          fill_in :address_state, with: @updated_state
+          fill_in :address_zip_code, with: @updated_zip_code
 
           click_button 'Submit'
 
@@ -134,5 +134,53 @@ RSpec.describe 'user profile', type: :feature do
 
       expect(page).to have_content("Email has already been taken")
     end
+
+    it 'shows all user addresses and buttons' do
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+      visit profile_path
+
+      within '#address-handler' do
+        expect(page).to have_content("Addresses on File:")
+        within "#address-details-#{@address_1.id}" do
+          expect(page).to have_content("Street: #{@user.addresses[0].street}")
+          expect(page).to have_content("City: #{@user.addresses[0].city}")
+          expect(page).to have_button("Edit This Address")
+          expect(page).to have_button("Delete This Address")
+        end
+        within "#address-details-#{@address_2.id}" do
+          expect(page).to have_content("Street: #{@user.addresses[1].street}")
+          expect(page).to have_content("City: #{@user.addresses[1].city}")
+          expect(page).to have_button("Edit This Address")
+          expect(page).to have_button("Delete This Address")
+        end
+      end
+    end
+
+    it 'does not show edit/delete buttons for addresses in completed orders' do
+
+      @admin = create(:admin)
+
+      @merchant_1 = create(:merchant)
+      @merchant_2 = create(:merchant)
+
+      @order_1 = create(:order, user: @user, address_id: @address_1.id, status: "shipped")
+
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@user)
+
+      visit profile_path
+
+      within '#address-handler' do
+        expect(page).to have_content("Addresses on File:")
+        within "#address-details-#{@address_1.id}" do
+          expect(page).to have_content("Street: #{@user.addresses[0].street}")
+          expect(page).to have_content("City: #{@user.addresses[0].city}")
+          expect(page).to_not have_button("Edit This Address")
+          expect(page).to_not have_button("Delete This Address")
+        end
+      end
+    end
+
+
   end
 end

@@ -4,6 +4,7 @@ class Profile::OrdersController < ApplicationController
   def index
     @user = current_user
     @orders = current_user.orders
+
   end
 
   def show

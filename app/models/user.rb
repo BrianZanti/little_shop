@@ -12,6 +12,7 @@ class User < ApplicationRecord
   has_many :order_items, through: :orders
 
   # as a merchant
+  has_many :discounts
   has_many :items, foreign_key: 'merchant_id'
 
   # def active_items
@@ -152,13 +153,13 @@ class User < ApplicationRecord
 
   def self.top_address_cities_by_order_count(limit)
     self.joins(:orders)
-    .joins('JOIN addresses ON users.id = addresses.user_id')
-    .where(orders: {status: :shipped})
-    .group('addresses.state, addresses.city')
-    .group('users.id')
-    .select('addresses.city, addresses.state, count(orders.id) AS order_count')
-    .order('order_count DESC')
-    .order('users.id')
-    .limit(limit)
+        .joins('JOIN addresses ON users.id = addresses.user_id')
+        .where(orders: {status: :shipped})
+        .group('addresses.state, addresses.city')
+        .group('users.id')
+        .select('addresses.city, addresses.state, count(orders.id) AS order_count')
+        .order('order_count DESC')
+        .order('users.id')
+        .limit(limit)
   end
 end

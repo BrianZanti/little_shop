@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     patch '/items/:id/disable', to: 'items#disable', as: 'disable_item'
     put '/order_items/:order_item_id/fulfill', to: 'orders#fulfill', as: 'fulfill_order_item'
     resources :orders, only: [:show]
+    resources :discounts, only: [:new, :create, :destroy, :edit, :update]
   end
 
   namespace :admin do

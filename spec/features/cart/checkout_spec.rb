@@ -58,130 +58,6 @@ RSpec.describe "Checking out" do
       end
     end
 
-    describe 'instance methods' do
-      before :each do
-        @merchant_1 = create(:merchant)
-        @merchant_2 = create(:merchant)
-        @address_1 = create(:address, user: @merchant_1)
-        @address_2 = create(:address, user: @merchant_2)
-
-        @user_1 = create(:user)
-        @user_2 = create(:user)
-        @address_3 = create(:address, user: @user_1)
-        @address_4 = create(:address, user: @user_2)
-
-        @discount_1 = create(:discount, user: @merchant_1, minimum_quantity: 2, discount_amount: 10)
-        @discount_2 = create(:discount, user: @merchant_1, minimum_quantity: 4, discount_amount: 20)
-        @discount_3 = create(:discount, user: @merchant_1, minimum_quantity: 6, discount_amount: 30)
-
-        @discount_4 = create(:discount, user: @merchant_2, minimum_quantity: 2, discount_amount: 10)
-        @discount_5 = create(:discount, user: @merchant_2, minimum_quantity: 4, discount_amount: 20)
-        @discount_6 = create(:discount, user: @merchant_2, minimum_quantity: 6, discount_amount: 30)
-
-        @order_1 = create(:order, user: @user_1)
-        @order_2 = create(:order, user: @user_1)
-        @order_3 = create(:order, user: @user_2)
-
-
-        @item_1 = create(:item, user: @merchant_1, inventory: 100)
-        @item_2 = create(:item, user: @merchant_1, inventory: 100)
-        @item_3 = create(:item, user: @merchant_2, inventory: 100)
-        @item_4 = create(:item, user: @merchant_2, inventory: 100)
-
-        # @order_item_1 = create(:order_item, order: @order_1, item: @item_1, quantity: 1, price: 2)
-        # @order_item_2 = create(:order_item, order: @order_1, item: @item_2, quantity: 1, price: 3)
-        #
-        # @order_item_3 = create(:order_item, order: @order_1, item: @item_3, quantity: 2, price: 4)
-        # @order_item_4 = create(:order_item, order: @order_2, item: @item_1, quantity: 1, price: 2)
-        #
-        # @order_item_5 = create(:order_item, order: @order_2, item: @item_2, quantity: 3, price: 3)
-        # @order_item_6 = create(:order_item, order: @order_2, item: @item_3, quantity: 1, price: 4)
-        #
-        # @order_item_7 = create(:order_item, order: @order_2, item: @item_1, quantity: 1, price: 2)
-        # @order_item_8 = create(:order_item, order: @order_2, item: @item_2, quantity: 1, price: 3)
-        #
-        # @order_item_9 = create(:order_item, order: @order_2, item: @item_3, quantity: 1, price: 4)
-
- 
-      end
-
-      it '.find_discount(merchant) finds no discount when no item exceeds the minimum quantity but total order items quantity does' do
-        @order_item_1 = create(:order_item, order: @order_1, item: @item_1, quantity: 1, price: 2)
-        @order_item_2 = create(:order_item, order: @order_1, item: @item_2, quantity: 1, price: 3)
-        @order_item_2 = create(:order_item, order: @order_1, item: @item_2, quantity: 1, price: 3)
-
-        expect(@order_1.items.length).to eq(3)
-
-        # expect(@order_1.find_discount(@merchant_1)).to eq(nil)
-
-      end
-    end
-
-    it "should show no discount when item quantity is less than minimum quantity" do
-      # click_button "Check Out"
-      # @new_order = Order.last
-      #
-      # expect(current_path).to eq(profile_orders_path)
-      # expect(page).to have_content("Your order has been created!")
-      # expect(page).to have_content("Cart: 0")
-      # within("#order-#{@new_order.id}") do
-      #   expect(page).to have_link("Order ID #{@new_order.id}")
-      #   expect(page).to have_content("Status: pending")
-      # end
-    end
-
-    xit "should show a discount when item quantity is equal to or more than minimum quantity" do
-      # click_button "Check Out"
-      # @new_order = Order.last
-      #
-      # expect(current_path).to eq(profile_orders_path)
-      # expect(page).to have_content("Your order has been created!")
-      # expect(page).to have_content("Cart: 0")
-      # within("#order-#{@new_order.id}") do
-      #   expect(page).to have_link("Order ID #{@new_order.id}")
-      #   expect(page).to have_content("Status: pending")
-      # end
-    end
-
-    xit "should show a higher-tiered discount when item quantity is equal to or more than minimum quantity for next tier" do
-      # click_button "Check Out"
-      # @new_order = Order.last
-      #
-      # expect(current_path).to eq(profile_orders_path)
-      # expect(page).to have_content("Your order has been created!")
-      # expect(page).to have_content("Cart: 0")
-      # within("#order-#{@new_order.id}") do
-      #   expect(page).to have_link("Order ID #{@new_order.id}")
-      #   expect(page).to have_content("Status: pending")
-      # end
-    end
-
-    xit "should not show discount if total item quantity exceeds minimum but individual item quantity does not" do
-      # click_button "Check Out"
-      # @new_order = Order.last
-      #
-      # expect(current_path).to eq(profile_orders_path)
-      # expect(page).to have_content("Your order has been created!")
-      # expect(page).to have_content("Cart: 0")
-      # within("#order-#{@new_order.id}") do
-      #   expect(page).to have_link("Order ID #{@new_order.id}")
-      #   expect(page).to have_content("Status: pending")
-      # end
-    end
-
-    xit "should not show discount if total item quantity exceeds minimum but individual item quantity does not" do
-      # click_button "Check Out"
-      # @new_order = Order.last
-      #
-      # expect(current_path).to eq(profile_orders_path)
-      # expect(page).to have_content("Your order has been created!")
-      # expect(page).to have_content("Cart: 0")
-      # within("#order-#{@new_order.id}") do
-      #   expect(page).to have_link("Order ID #{@new_order.id}")
-      #   expect(page).to have_content("Status: pending")
-      # end
-    end
-
     it "should carry selected (first) address forward with new order" do
       find(:css, "#radio-button-for-address-#{@address_3.id}").click
       click_button "Check Out"
@@ -250,6 +126,101 @@ RSpec.describe "Checking out" do
 
       click_link "log in"
       expect(current_path).to eq(login_path)
+    end
+  end
+end
+
+RSpec.describe "Checking out and viewing discounts" do
+  # before :each do
+  #   @merchant_1 = create(:merchant)
+  #   @merchant_2 = create(:merchant)
+  #
+  #   @discount_1 = create(:discount, user: @merchant_1, minimum_quantity: 3, discount_amount: 20)
+  #
+  #   @address_1 = create(:address, user: @merchant_1)
+  #   @address_2 = create(:address, user: @merchant_2)
+  #
+  #   @item_1 = create(:item, user: @merchant_1, inventory: 3)
+  #   @item_2 = create(:item, user: @merchant_2)
+  #   @item_3 = create(:item, user: @merchant_2)
+  #
+  #   @discount_1 = create(:discount, user: @merchant_1, minimum_quantity: 5, discount_amount: 10)
+  #   @discount_2 = create(:discount, user: @merchant_2, minimum_quantity: 7, discount_amount: 20)
+  #   @discount_3 = create(:discount, user: @merchant_2, minimum_quantity: 9, discount_amount: 30)
+  # end
+
+  context "as a logged in regular user" do
+    before :each do
+      @merchant_1 = create(:merchant)
+      @merchant_2 = create(:merchant)
+      @merchant_3 = create(:merchant)
+
+      @discount_1 = create(:discount, user: @merchant_1, minimum_quantity: 3, discount_amount: 20)
+
+      @address_1 = create(:address, user: @merchant_1)
+      @address_2 = create(:address, user: @merchant_2)
+      @address_3 = create(:address, user: @merchant_2)
+
+      @item_1 = create(:item, user: @merchant_1, inventory: 100)
+      @item_2 = create(:item, user: @merchant_2, inventory: 100)
+      @item_3 = create(:item, user: @merchant_2, inventory: 100)
+      @item_4 = create(:item, user: @merchant_3, inventory: 100)
+
+      @discount_1 = create(:discount, user: @merchant_1, minimum_quantity: 5, discount_amount: 10, description: "Memorial Day Sale")
+      @discount_2 = create(:discount, user: @merchant_2, minimum_quantity: 7, discount_amount: 20, description: "Spring Sale")
+      @discount_3 = create(:discount, user: @merchant_2, minimum_quantity: 9, discount_amount: 30, description: "Spring Sale, BLOWOUT")
+
+      @user = create(:user)
+      @address_1 = create(:address, user: @user)
+      login_as(@user)
+
+      visit item_path(@item_1)
+      click_on "Add to Cart"
+
+      visit item_path(@item_2)
+      click_on "Add to Cart"
+
+      visit item_path(@item_3)
+      click_on "Add to Cart"
+
+      visit item_path(@item_4)
+      click_on "Add to Cart"
+
+      visit cart_path
+
+      within "#item-#{@item_1.id}" do
+        3.times do click_button "+" end # 4 total
+      end
+
+      within "#item-#{@item_2.id}" do
+        6.times do click_button "+" end # 7 total
+      end
+
+      within "#item-#{@item_3.id}" do
+        10.times do click_button "+" end # 11 total
+      end
+
+      within "#item-#{@item_4.id}" do
+        15.times do click_button "+" end # 11 total
+      end
+    end
+
+    it 'should show discounts next to applicable items in cart show' do
+      within "#item-#{@item_1.id}" do
+        expect(page).to have_content("Discount: No current discounts") # discount_1 activates at 5
+      end
+
+      within "#item-#{@item_2.id}" do
+        expect(page).to have_content("Discount: #{@discount_2.description}: #{@discount_2.discount_amount.round}% off!") # discount_2 meets minimum expectations
+      end
+
+      within "#item-#{@item_3.id}" do
+        expect(page).to have_content("Discount: #{@discount_3.description}: #{@discount_3.discount_amount.round}% off!") # discount_3 overrides discount_2
+      end
+
+      within "#item-#{@item_4.id}" do
+        expect(page).to have_content("Discount: No current discounts") # never has discounts for merchant_3
+      end
     end
   end
 end

@@ -121,27 +121,31 @@ RSpec.describe Cart do
       @item_2 = create(:item, user: @merchant_1, inventory: 100, id: 2)
       @item_3 = create(:item, user: @merchant_2, inventory: 100, id: 3)
       @item_4 = create(:item, user: @merchant_2, inventory: 100, id: 4)
+
+      @discount_1 = create(:discount, user: @merchant_1, minimum_quantity: 2, discount_amount: 10)
+      @discount_2 = create(:discount, user: @merchant_1, minimum_quantity: 4, discount_amount: 20)
+      @discount_3 = create(:discount, user: @merchant_1, minimum_quantity: 6, discount_amount: 30)
+
+      @discount_4 = create(:discount, user: @merchant_2, minimum_quantity: 2, discount_amount: 10)
+      @discount_5 = create(:discount, user: @merchant_2, minimum_quantity: 4, discount_amount: 20)
+      @discount_6 = create(:discount, user: @merchant_2, minimum_quantity: 6, discount_amount: 30)
+
     end
 
-    it "finds correct discount for incrementing cart items" do
+    it "finds correct discount for incrementing cart items and is unaffected by other items in the cart" do
       expect(@cart.items.keys.first.find_discount(@cart)).to eq(nil)
 
       2.times do @cart.add_item(1) end
       expect(@cart.items.keys.first.find_discount(@cart)).to eq(@discount_1)
 
       2.times do @cart.add_item(1) end
-
       expect(@cart.items.keys.first.find_discount(@cart)).to eq(@discount_2)
 
       2.times do @cart.add_item(1) end
       expect(@cart.items.keys.first.find_discount(@cart)).to eq(@discount_3)
 
-
       100.times do @cart.add_item(1) end
       expect(@cart.items.keys.first.find_discount(@cart)).to eq(@discount_3)
     end
-
-
-
   end
 end

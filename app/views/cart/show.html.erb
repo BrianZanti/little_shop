@@ -26,15 +26,15 @@
       or <%= link_to "log in", login_path %> to check out.</p>
   <% end %>
   <%= button_to "Empty Cart", empty_cart_path, method: :delete %>
-  <ul id="items">
+  <ul id="items"><br>
     <% cart.items.each do |item, quantity| %>
       <li id="item-<%= item.id %>">
-        <%= item.name %>
-        <%= image_tag item.image %>
-        Sold By: <%= item.user.name %>
-        <%=  number_to_currency(item.price) %>
-        quantity: <%= quantity %>
-        subtotal: <%= number_to_currency(cart.subtotal(item)) %>
+        <%= item.name %><br>
+        <%= image_tag item.image %><br>
+        Sold By: <%= item.user.name %><br>
+        <%=  number_to_currency(item.price) %><br>
+        quantity: <%= quantity %><br>
+        subtotal: <%= number_to_currency(cart.subtotal(item)) %><br>
         <%= button_to "delete", remove_item_path(item), method: :delete %>
         <%= button_to "+", cart_item_path(item), method: :post %>
         <%= button_to "-", cart_item_path(item), method: :patch %>

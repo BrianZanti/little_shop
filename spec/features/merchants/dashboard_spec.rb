@@ -54,8 +54,24 @@ RSpec.describe 'merchant dashboard' do
       expect(page).to have_content("Zip: #{@merchant.addresses.first.zip}")
     end
 
-    it 'does not have a link to edit information' do
-      expect(page).to_not have_link('Edit')
+    it 'shows the todo list' do
+      expect(page).to have_content("Todo List")
+      @merchant.items_with_default_photo.each do |item|
+        expect(page).to have_content("Edit-Photo-#{item.id}")
+      end
+
+      old_photo = @merchant.items.first
+
+      click_link "Edit-Photo-#{old_photo.id}"
+      expect(current_path).to eq(edit_dashboard_item_path(old_photo))
+    end
+
+    it 'shows stats about unfulfilled orders' do
+      expect(page).to have_content("Unfulfilled items worth: $12")
+    end
+
+    it 'shows whether merchant can fulfill all orders or not' do
+      expect(page).to have_content('Can fulfill all current orders? true')
     end
 
     it 'shows pending order information' do

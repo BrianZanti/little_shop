@@ -206,7 +206,6 @@ RSpec.describe "Checking out and viewing discounts" do
     end
 
     it 'should show discounts next to applicable items in cart show' do
-      save_and_open_page
       within "#item-#{@item_1.id}" do
         expect(page).to have_content("Discount: No current discounts") # discount_1 activates at 5
       end

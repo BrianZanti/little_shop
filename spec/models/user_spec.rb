@@ -196,6 +196,25 @@ RSpec.describe User, type: :model do
       expect(@m1.top_user_by_item_count.name).to eq(@u3.name)
       expect(@m1.top_user_by_item_count.quantity).to eq(10)
     end
+
+    it 'unfulfilled_items_worth' do
+      create(:order_item, item: @i1)
+      expect(@m1.unfulfilled_items_worth.to_f).to eq(3.0)
+    end
+
+    it 'can_fulfill_all_orders?' do
+      create(:order_item, item: @i1)
+      expect(@m1.can_fulfill_all_orders?).to eq(true)
+    end
+
+    it 'sad can_fulfill_all_orders?' do
+      create_list(:order_item,50, item: @i1)
+      expect(@m1.can_fulfill_all_orders?).to eq(false)
+    end
+
+    it '.items_with_default_photo' do
+      expect(@m1.items_with_default_photo).to eq([@i1,@i2,@i3,@i4,@i5,@i6,@i7,@i8,@i9])
+    end
   end
 
   describe 'class methods' do

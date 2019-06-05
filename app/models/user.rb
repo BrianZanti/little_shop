@@ -103,6 +103,19 @@ class User < ApplicationRecord
          .limit(1).first
   end
 
+  def items_with_default_photo
+    items.where('image LIKE ?', '%https://picsum.photos/200/300%')
+  end
+
+  def unfulfilled_items_worth
+    items.joins(:orders).select('sum(items.price) as price').where('orders.status = 0').sum(:price)
+  end
+
+  def can_fulfill_all_orders?
+    result = items.joins(:orders).where('orders.status = 0').select('sum(items.inventory) as inventory, sum(order_items.quantity) as quantity').group('items.id').first
+     result ? result.inventory > result.quantity : true
+  end
+
   def self.active_merchants
     where(role: :merchant, active: true)
   end

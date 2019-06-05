@@ -43,7 +43,12 @@ RSpec.describe Order, type: :model do
     it '.total_cost' do
       expect(@order.total_cost).to eq((@oi_1.quantity*@oi_1.price) + (@oi_2.quantity*@oi_2.price))
     end
+
+    it '.has_enough_inventory_to_fulfill' do
+      expect(@order.has_enough_inventory_to_fulfill?).to eq(true)
+    end
   end
+
 
   describe 'class methods' do
     before :each do

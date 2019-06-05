@@ -30,11 +30,21 @@
     <% cart.items.each do |item, quantity| %>
       <li id="item-<%= item.id %>">
         <%= item.name %><br>
+        Using the method in the view in the interest of time<br>
+        <% if item.find_discount(cart) == nil %>
+          Discount: No current discounts<br>
+        <% else %>
+          Discount: <%= item.find_discount(cart).description %>: <%= item.find_discount(cart).discount_amount.round %>% off!<br>
+        <% end %>
         <%= image_tag item.image %><br>
         Sold By: <%= item.user.name %><br>
         <%=  number_to_currency(item.price) %><br>
         quantity: <%= quantity %><br>
         subtotal: <%= number_to_currency(cart.subtotal(item)) %><br>
+        <% if item.find_discount(cart) != nil %>
+          Discounted Subtotal: <%= number_to_currency(cart.subtotal(item) - cart.subtotal(item) * item.find_discount(cart).discount_amount / 100)  %><br>
+        <% end %>
+
         <%= button_to "delete", remove_item_path(item), method: :delete %>
         <%= button_to "+", cart_item_path(item), method: :post %>
         <%= button_to "-", cart_item_path(item), method: :patch %>

@@ -2,6 +2,8 @@ class CartController < ApplicationController
   before_action :visitor_or_user
 
   def show
+    # @discount = Item.find(params[:id]).find_discount(cart) if params[:id]
+    # require 'pry'; binding.pry
   end
 
   def increment

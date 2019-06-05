@@ -4,10 +4,19 @@ class Profile::OrdersController < ApplicationController
   def index
     @user = current_user
     @orders = current_user.orders
+
   end
 
   def show
     @order = Order.find(params[:id])
+    @shipping_address = Address.find(@order.address_id) if @order.address_id != nil
+  end
+
+  def update
+    order = Order.find(params[:id])
+    order.address_id = Address.find(params[:shipping_id]).id
+    order.save
+    redirect_to profile_order_path(order)
   end
 
   def destroy
@@ -31,7 +40,7 @@ class Profile::OrdersController < ApplicationController
   end
 
   def create
-    order = Order.create(user: current_user, status: :pending)
+    order = Order.create(user: current_user, status: :pending, address_id: params[:shipping_id])
     cart.items.each do |item, quantity|
       order.order_items.create(item: item, quantity: quantity, price: item.price)
     end

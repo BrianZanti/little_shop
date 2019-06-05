@@ -31,6 +31,13 @@ class Item < ApplicationRecord
       .limit(limit)
   end
 
+  def find_discount(cart)
+    user.discounts
+    .where('discounts.minimum_quantity <= ?', cart.contents[self.id.to_s])
+    .order(:minimum_quantity)
+    .last
+  end
+
   def convert_datetime_to_seconds(datetime)
     days_and_hours = datetime.split(":").first
     days = days_and_hours.split.first.to_i

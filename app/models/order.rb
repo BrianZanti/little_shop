@@ -1,5 +1,6 @@
 class Order < ApplicationRecord
   belongs_to :user
+  belongs_to :address, optional: true
   has_many :order_items
   has_many :items, through: :order_items
 
@@ -20,6 +21,7 @@ class Order < ApplicationRecord
     self.joins(:items)
         .where(status: :pending)
         .where(items: {merchant_id: merchant_id})
+        .order(:id)
         .distinct
   end
 

@@ -1,17 +1,36 @@
 <h1>Merchant Dashboard</h1>
-
 <div class="card float-left m-3 order-item-card">
   <div class="card-body">
     <h5 class="card-title"><%= @merchant.name %></h5>
     <p>Role: <%= @merchant.role %></p>
     <p>Email: <%= @merchant.email %></p>
-    <p>Address: <%= @merchant.address %></p>
-    <p>City: <%= @merchant.city %></p>
-    <p>State: <%= @merchant.state %></p>
-    <p>Zip: <%= @merchant.zip %></p>
+    <p>Address: <%= @merchant.addresses.first.street %></p>
+    <p>City: <%= @merchant.addresses.first.city %></p>
+    <p>State: <%= @merchant.addresses.first.state %></p>
+    <p>Zip: <%= @merchant.addresses.first.zip_code %></p>
     <%= button_to 'Downgrade to User', admin_downgrade_merchant_path(@merchant), method: :patch if current_admin? %>
   </div>
 </div>
+
+<h2>Bulk Discounts</h2>
+
+<%= button_to "Add New Bulk Discount", new_dashboard_discount_path, method: :get %>
+</br>
+<% if @merchant.discounts.empty? %>
+  <h3>No discounts on file</h3>
+<% else %>
+  <% @merchant.discounts.each do |discount| %>
+  <section id="discount-<%= discount.id %>">
+    <h3>Discount Description: <%= discount.description %></h3>
+    <p>Minimum Quantity (#): <%= discount.minimum_quantity %></p>
+    <p>Discount Amount (%): <%= discount.discount_amount %></p>
+    <%= button_to "Edit This Discount", edit_dashboard_discount_path(discount.id), method: :get %>
+    <%= button_to "Delete This Discount", dashboard_discount_path(discount.id), method: :delete %>
+    <br>
+  </section>
+  <% end %>
+<% end %>
+
 
 <%= tag.div class: "card" do %>
   <%= tag.section class: "statistics card-body float-left m-4" do %>

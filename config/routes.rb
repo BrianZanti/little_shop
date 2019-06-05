@@ -25,6 +25,8 @@ Rails.application.routes.draw do
   patch '/profile/edit', to: 'users#update'
   namespace :profile do
     resources :orders, only: [:index, :show, :destroy, :create]
+    patch '/orders/:id', to: 'orders#update', as: :update_address
+    resources :addresses, only: [:new, :create, :edit, :destroy, :update]
   end
 
   namespace :dashboard do
@@ -35,6 +37,7 @@ Rails.application.routes.draw do
     patch '/items/:id/disable', to: 'items#disable', as: 'disable_item'
     put '/order_items/:order_item_id/fulfill', to: 'orders#fulfill', as: 'fulfill_order_item'
     resources :orders, only: [:show]
+    resources :discounts, only: [:new, :create, :destroy, :edit, :update]
   end
 
   namespace :admin do

@@ -27,11 +27,4 @@ RSpec.describe Discount, type: :model do
       expect(discount.user).to eq(merchant)
     end
   end
-
-  # describe 'class methods' do
-  #   describe 'item popularity' do
-  #     before :each do
-  #     end
-  #   end
-  # end
 end

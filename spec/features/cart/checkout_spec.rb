@@ -7,6 +7,8 @@ RSpec.describe "Checking out" do
     @merchant_1 = create(:merchant)
     @merchant_2 = create(:merchant)
 
+    @discount_1 = create(:discount, user: @merchant_1, minimum_quantity: 3, discount_amount: 20)
+
     @address_1 = create(:address, user: @merchant_1)
     @address_2 = create(:address, user: @merchant_2)
 
@@ -124,6 +126,102 @@ RSpec.describe "Checking out" do
 
       click_link "log in"
       expect(current_path).to eq(login_path)
+    end
+  end
+end
+
+RSpec.describe "Checking out and viewing discounts" do
+  # before :each do
+  #   @merchant_1 = create(:merchant)
+  #   @merchant_2 = create(:merchant)
+  #
+  #   @discount_1 = create(:discount, user: @merchant_1, minimum_quantity: 3, discount_amount: 20)
+  #
+  #   @address_1 = create(:address, user: @merchant_1)
+  #   @address_2 = create(:address, user: @merchant_2)
+  #
+  #   @item_1 = create(:item, user: @merchant_1, inventory: 3)
+  #   @item_2 = create(:item, user: @merchant_2)
+  #   @item_3 = create(:item, user: @merchant_2)
+  #
+  #   @discount_1 = create(:discount, user: @merchant_1, minimum_quantity: 5, discount_amount: 10)
+  #   @discount_2 = create(:discount, user: @merchant_2, minimum_quantity: 7, discount_amount: 20)
+  #   @discount_3 = create(:discount, user: @merchant_2, minimum_quantity: 9, discount_amount: 30)
+  # end
+
+  context "as a logged in regular user" do
+    before :each do
+      @merchant_1 = create(:merchant)
+      @merchant_2 = create(:merchant)
+      @merchant_3 = create(:merchant)
+
+      @discount_1 = create(:discount, user: @merchant_1, minimum_quantity: 3, discount_amount: 20)
+
+      @address_1 = create(:address, user: @merchant_1)
+      @address_2 = create(:address, user: @merchant_2)
+      @address_3 = create(:address, user: @merchant_2)
+
+      @item_1 = create(:item, user: @merchant_1, inventory: 100)
+      @item_2 = create(:item, user: @merchant_2, inventory: 100)
+      @item_3 = create(:item, user: @merchant_2, inventory: 100)
+      @item_4 = create(:item, user: @merchant_3, inventory: 100)
+
+      @discount_1 = create(:discount, user: @merchant_1, minimum_quantity: 5, discount_amount: 10, description: "Memorial Day Sale")
+      @discount_2 = create(:discount, user: @merchant_2, minimum_quantity: 7, discount_amount: 20, description: "Spring Sale")
+      @discount_3 = create(:discount, user: @merchant_2, minimum_quantity: 9, discount_amount: 30, description: "Spring Sale, BLOWOUT")
+
+      @user = create(:user)
+      @address_1 = create(:address, user: @user)
+      login_as(@user)
+
+      visit item_path(@item_1)
+      click_on "Add to Cart"
+
+      visit item_path(@item_2)
+      click_on "Add to Cart"
+
+      visit item_path(@item_3)
+      click_on "Add to Cart"
+
+      visit item_path(@item_4)
+      click_on "Add to Cart"
+
+      visit cart_path
+
+      within "#item-#{@item_1.id}" do
+        1.times do click_button "+" end # 4 total
+      end
+
+      within "#item-#{@item_2.id}" do
+        6.times do click_button "+" end # 7 total
+      end
+
+      within "#item-#{@item_3.id}" do
+        10.times do click_button "+" end # 11 total
+      end
+
+      within "#item-#{@item_4.id}" do
+        15.times do click_button "+" end # 11 total
+      end
+    end
+
+    it 'should show discounts next to applicable items in cart show' do
+      save_and_open_page
+      within "#item-#{@item_1.id}" do
+        expect(page).to have_content("Discount: No current discounts") # discount_1 activates at 5
+      end
+
+      within "#item-#{@item_2.id}" do
+        expect(page).to have_content("Discount: #{@discount_2.description}: #{@discount_2.discount_amount.round}% off!") # discount_2 meets minimum expectations
+      end
+
+      within "#item-#{@item_3.id}" do
+        expect(page).to have_content("Discount: #{@discount_3.description}: #{@discount_3.discount_amount.round}% off!") # discount_3 overrides discount_2
+      end
+
+      within "#item-#{@item_4.id}" do
+        expect(page).to have_content("Discount: No current discounts") # never has discounts for merchant_3
+      end
     end
   end
 end

@@ -102,4 +102,50 @@ RSpec.describe Cart do
       end
     end
   end
+
+  describe "#find_discount" do
+    before :each do
+      @cart = Cart.new({"1" => 0, "2" => 3})
+
+      @merchant_1 = create(:merchant)
+      @merchant_2 = create(:merchant)
+      @address_1 = create(:address, user: @merchant_1)
+      @address_2 = create(:address, user: @merchant_2)
+
+      @user_1 = create(:user)
+      @user_2 = create(:user)
+      @address_3 = create(:address, user: @user_1)
+      @address_4 = create(:address, user: @user_2)
+
+      @item_1 = create(:item, user: @merchant_1, inventory: 100, id: 1)
+      @item_2 = create(:item, user: @merchant_1, inventory: 100, id: 2)
+      @item_3 = create(:item, user: @merchant_2, inventory: 100, id: 3)
+      @item_4 = create(:item, user: @merchant_2, inventory: 100, id: 4)
+
+      @discount_1 = create(:discount, user: @merchant_1, minimum_quantity: 2, discount_amount: 10)
+      @discount_2 = create(:discount, user: @merchant_1, minimum_quantity: 4, discount_amount: 20)
+      @discount_3 = create(:discount, user: @merchant_1, minimum_quantity: 6, discount_amount: 30)
+
+      @discount_4 = create(:discount, user: @merchant_2, minimum_quantity: 2, discount_amount: 10)
+      @discount_5 = create(:discount, user: @merchant_2, minimum_quantity: 4, discount_amount: 20)
+      @discount_6 = create(:discount, user: @merchant_2, minimum_quantity: 6, discount_amount: 30)
+
+    end
+
+    it "finds correct discount for incrementing cart items and is unaffected by other items in the cart" do
+      expect(@cart.items.keys.first.find_discount(@cart)).to eq(nil)
+
+      2.times do @cart.add_item(1) end
+      expect(@cart.items.keys.first.find_discount(@cart)).to eq(@discount_1)
+
+      2.times do @cart.add_item(1) end
+      expect(@cart.items.keys.first.find_discount(@cart)).to eq(@discount_2)
+
+      2.times do @cart.add_item(1) end
+      expect(@cart.items.keys.first.find_discount(@cart)).to eq(@discount_3)
+
+      100.times do @cart.add_item(1) end
+      expect(@cart.items.keys.first.find_discount(@cart)).to eq(@discount_3)
+    end
+  end
 end

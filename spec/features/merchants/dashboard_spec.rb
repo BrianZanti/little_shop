@@ -98,16 +98,10 @@ RSpec.describe 'merchant dashboard' do
   end
 end
 
-
 RSpec.describe 'merchant dashboard' do
   before :each do
     @merchant_1 = create(:merchant)
     @address_1 = create(:address, user: @merchant_1)
-    # @discount_1 = create(:discount, user: @merchant_1)
-
-    # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_1)
-
-    # visit dashboard_path
   end
 
   describe 'merchants have full CRUD on discounts from their dashboard' do
@@ -143,6 +137,19 @@ RSpec.describe 'merchant dashboard' do
       end
     end
 
+    it 'merchants can have multiple discounts' do
+      create(:discount, user: @merchant_1)
+      create(:discount, user: @merchant_1)
+      create(:discount, user: @merchant_1)
+
+      visit login_path
+
+      fill_in :email, with: @merchant_1.email
+      fill_in :password, with: @merchant_1.password
+
+      expect(@merchant_1.discounts.length).to eq(3)
+    end
+
     it 'merchants can delete discounts' do
       discount_1 = create(:discount, user: @merchant_1)
       discount_2 = create(:discount, user: @merchant_1)
@@ -174,7 +181,6 @@ RSpec.describe 'merchant dashboard' do
 
     it 'merchants can edit discounts' do
       discount_1 = create(:discount, user: @merchant_1)
-      discount_2 = create(:discount, user: @merchant_1)
 
       new_description = "Black Friday Sale"
       new_minimum_quantity = "10"
@@ -202,15 +208,9 @@ RSpec.describe 'merchant dashboard' do
 
       expect(current_path).to eq(dashboard_path)
 
-
-
-
       expect(page).to have_content("Your discount has been updated!")
 
       within "#discount-#{discount_1.id}" do
-        # expect(page).to_not have_content(discount_1.description)
-        # expect(page).to_not have_content(discount_1.minimum_quantity)
-        # expect(page).to_not have_content(discount_1.discount_amount)
         expect(page).to have_content(new_description)
         expect(page).to have_content(new_minimum_quantity)
         expect(page).to have_content(new_discount_amount)
